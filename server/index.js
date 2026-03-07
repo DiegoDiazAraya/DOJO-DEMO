@@ -61,21 +61,26 @@ app.post('/api/videos', (req, res) => {
 });
 
 // Students with automatic background sync
-app.get('/api/students', async (req, res) => {
+app.get('/api/students', (req, res) => {
     const students = readData(studentsFile);
-    const mpPayment = new Payment(client);
 
-    // Configurar rango de 6 meses
+    // Devolvemos la data de inmediato para evitar timeouts
+    res.json(students);
+
+    // Ejecutamos la sincronización en segundo plano sin 'await'
+    syncStudentsBackground(students);
+});
+
+// Función auxiliar para sincronización en segundo plano (últimos 6 meses)
+async function syncStudentsBackground(students) {
+    const mpPayment = new Payment(client);
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
     const now = new Date();
-
     let anyUpdated = false;
 
-    // Sincronizar cada alumno que tenga email (en segundo plano o secuencial para asegurar data)
     for (let student of students) {
         if (!student.email) continue;
-
         try {
             const result = await mpPayment.search({
                 options: {
@@ -88,34 +93,34 @@ app.get('/api/students', async (req, res) => {
             });
 
             const payments = result.results || [];
-            payments.forEach(pay => {
-                const payDate = pay.date_approved.split('T')[0];
-                if (!student.history.some(h => h.transaction_id === pay.id.toString())) {
-                    student.history.push({
-                        date: payDate,
-                        status: 'Completado',
-                        amount: pay.transaction_amount,
-                        method: 'Mercado Pago',
-                        transaction_id: pay.id.toString()
-                    });
-
-                    student.isPaid = true;
-                    student.lastPaymentDate = payDate;
-                    student.lastPaymentMonth = payDate.substring(0, 7);
-                    anyUpdated = true;
-                }
-            });
+            if (payments.length > 0) {
+                payments.forEach(pay => {
+                    const payDate = pay.date_approved.split('T')[0];
+                    if (!student.history.some(h => h.transaction_id === pay.id.toString())) {
+                        student.history.push({
+                            date: payDate,
+                            status: 'Completado',
+                            amount: pay.transaction_amount,
+                            method: 'Mercado Pago',
+                            transaction_id: pay.id.toString()
+                        });
+                        student.isPaid = true;
+                        student.lastPaymentDate = payDate;
+                        student.lastPaymentMonth = payDate.substring(0, 7);
+                        anyUpdated = true;
+                    }
+                });
+            }
         } catch (e) {
-            console.error(`Sync failed for ${student.email}:`, e.message);
+            console.error(`Sync background failed for ${student.email}:`, e.message);
         }
     }
 
     if (anyUpdated) {
         writeData(studentsFile, students);
+        console.log("--- BACKGROUND SYNC COMPLETED: Data persisted ---");
     }
-
-    res.json(students);
-});
+}
 
 app.post('/api/students', (req, res) => {
     const students = readData(studentsFile);
