@@ -25,7 +25,8 @@ import {
   ChevronRight,
   Edit2,
   Save,
-  Camera
+  Camera,
+  RefreshCcw
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import QRCode from 'react-qr-code';
