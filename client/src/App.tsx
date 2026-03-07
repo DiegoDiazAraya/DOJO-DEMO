@@ -131,8 +131,8 @@ const App: React.FC = () => {
               belt: 'WHITE',
               classesAttended: 15,
               classesToNextBelt: 40,
-              lastPaymentMonth: '',
-              isPaid: true,
+              lastPaymentMonth: email === 'pago@test.cl' ? 'Enero 2024' : 'Marzo 2024',
+              isPaid: email === 'pago@test.cl' ? false : true,
               history: [],
               plan: '3',
               monthlyFee: 40000
