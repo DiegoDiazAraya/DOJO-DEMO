@@ -16,6 +16,10 @@ services:
           type: static
           name: dojo-demo-client
           property: url
+    disk:
+      name: dojo-data
+      mountPath: /server/data
+      sizeGB: 1
 
   # Frontend Client
   - type: static
