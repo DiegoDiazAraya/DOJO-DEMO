@@ -1,0 +1,32 @@
+services:
+  # Backend Server
+  - type: web
+    name: dojo-demo-server
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    rootDir: server
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: VITE_MP_ACCESS_TOKEN
+        sync: false # Should be set in Render dashboard
+      - key: FRONTEND_URL
+        fromService:
+          type: static
+          name: dojo-demo-client
+          property: url
+
+  # Frontend Client
+  - type: static
+    name: dojo-demo-client
+    runtime: static
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    rootDir: client
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: dojo-demo-server
+          property: url

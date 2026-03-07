@@ -1,0 +1,21 @@
+{
+    "name": "dojo-demo-server",
+    "version": "1.0.0",
+    "description": "Backend for Dojo Demo",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "mercadopago": "^2.0.8",
+        "body-parser": "^1.20.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    }
+}

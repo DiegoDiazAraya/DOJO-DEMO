@@ -1,0 +1,1444 @@
+import { type Student } from '../types';
+
+export const INITIAL_STUDENTS_DATA: Student[] = [
+  {
+    "id": "1",
+    "name": "Lucas Andrés Bascuñán Bustos",
+    "email": "andrea.bustos.rivero@gmail.com",
+    "phone": "+56978788584",
+    "birthDate": "2013-02-26",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-03",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-03-01",
+        "status": "Completado",
+        "amount": 40000
+      }
+    ],
+    "plan": "3 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-03-01",
+    "monthlyFee": 40000,
+    "tutorName": "ANDREA BUSTOS RIVERO"
+  },
+  {
+    "id": "2",
+    "name": "Alejandro nova ortiz",
+    "email": "lorenaandrea.ortizvega@gmail.com",
+    "phone": "9 82228639",
+    "birthDate": "2007-05-18",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0,
+    "tutorName": "Lorena ortiz"
+  },
+  {
+    "id": "3",
+    "name": "Gaspar Landsberger Catalán",
+    "email": "andycatalan@gmail.com",
+    "phone": "+56942101618",
+    "birthDate": "2015-03-17",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0,
+    "tutorName": "Andrea Catalán"
+  },
+  {
+    "id": "4",
+    "name": "Agustín Alexis Hausheer Cisterna",
+    "email": "agustinh633@gmail.com",
+    "phone": "+56971047036",
+    "birthDate": "2005-03-17",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0
+  },
+  {
+    "id": "5",
+    "name": "Sebastian Andres Plaza Mellado",
+    "email": "sebaplaza25@gmail.com",
+    "phone": "957064489",
+    "birthDate": "2003-04-25",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-03",
+        "status": "Completado",
+        "amount": 50000
+      }
+    ],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-03",
+    "monthlyFee": 50000
+  },
+  {
+    "id": "6",
+    "name": "Valentino Sáez Silva",
+    "email": "valentinosaez75@gmail.com",
+    "phone": "+56958570729",
+    "birthDate": "2008-12-22",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-25",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-25",
+    "monthlyFee": 35000,
+    "tutorName": "Estefania silva larrain"
+  },
+  {
+    "id": "7",
+    "name": "Christian Absalón Moya Provoste",
+    "email": "moya.provoste@gmail.com",
+    "phone": "+56941641356",
+    "birthDate": "1997-12-28",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0
+  },
+  {
+    "id": "8",
+    "name": "Roberto Novoa Osses",
+    "email": "roberto.novoa.o@gmail.com",
+    "phone": "+56987192315",
+    "birthDate": "1982-06-03",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-10",
+        "status": "Completado",
+        "amount": 25000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-10",
+    "monthlyFee": 25000
+  },
+  {
+    "id": "9",
+    "name": "Jorge Andrés Ormeño Guzmán",
+    "email": "Jorgeamama@gmail.com",
+    "phone": "973534866",
+    "birthDate": "2006-12-07",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-26",
+        "status": "Completado",
+        "amount": 40000
+      }
+    ],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-26",
+    "monthlyFee": 40000
+  },
+  {
+    "id": "10",
+    "name": "Fernando Alonso Wall Larrain",
+    "email": "fernandowalllarrain@gmail.com",
+    "phone": "+56953498310",
+    "birthDate": "2008-07-17",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2025-12",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2025-12-30",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "1 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2025-12-30",
+    "monthlyFee": 35000,
+    "tutorName": "Carolina Larrain"
+  },
+  {
+    "id": "11",
+    "name": "Cristobal Antonio Maximiliano Alarcón Alvear",
+    "email": "crissfitns04@gmail.com",
+    "phone": "+569 76540489",
+    "birthDate": "2004-11-18",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-03",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-03-03",
+        "status": "Completado",
+        "amount": 40000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-03-03",
+    "monthlyFee": 40000
+  },
+  {
+    "id": "12",
+    "name": "Pedro andres barria Sepúlveda",
+    "email": "Pedrosobarria@yahoo.es",
+    "phone": "987755173",
+    "birthDate": "1980-07-02",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-27",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-27",
+    "monthlyFee": 35000
+  },
+  {
+    "id": "13",
+    "name": "Agustina francely Sáez silva",
+    "email": "alejandra.silva.larrain@gmail.com",
+    "phone": "974138012",
+    "birthDate": "2015-05-16",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-25",
+        "status": "Completado",
+        "amount": 20000
+      }
+    ],
+    "plan": "3 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-25",
+    "monthlyFee": 20000,
+    "tutorName": "Estefania Silva"
+  },
+  {
+    "id": "14",
+    "name": "Ignacio Vásquez Moya",
+    "email": "Ignacio.vasquez.moya@gmail.com",
+    "phone": "979035090",
+    "birthDate": "1987-06-13",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-26",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-26",
+    "monthlyFee": 35000
+  },
+  {
+    "id": "15",
+    "name": "Milenko Monsalves",
+    "email": "milenkomonsalves@gmail.com",
+    "phone": "(WhatsApp: +1 210 687 6910) (Llamadas: +56 9 7919 8382)",
+    "birthDate": "2005-04-27",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0
+  },
+  {
+    "id": "16",
+    "name": "Eliseo Lema Berroeta",
+    "email": "kattalina.berroeta@gmail.com",
+    "phone": "948596414",
+    "birthDate": "2019-07-23",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-22",
+        "status": "Completado",
+        "amount": 45000
+      }
+    ],
+    "plan": "4 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-22",
+    "monthlyFee": 45000,
+    "tutorName": "Daniel Lema"
+  },
+  {
+    "id": "17",
+    "name": "Rudy Alonso Muñoz Moreno",
+    "email": "cmorensa@gmail.com",
+    "phone": "+56966876446",
+    "birthDate": "2017-01-19",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-17",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-17",
+    "monthlyFee": 35000,
+    "tutorName": "Rudy Muñoz"
+  },
+  {
+    "id": "18",
+    "name": "Martin Luciano Hernández Aldana",
+    "email": "martin.luciano12006@gmail.com",
+    "phone": "+56940233205",
+    "birthDate": "1981-07-06",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-23",
+        "status": "Completado",
+        "amount": 40000
+      }
+    ],
+    "plan": "3 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-23",
+    "monthlyFee": 40000
+  },
+  {
+    "id": "19",
+    "name": "Renzo Morales",
+    "email": "abgrenzomorales@gmail.com",
+    "phone": "+56 923870577",
+    "birthDate": "1990-09-01",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0
+  },
+  {
+    "id": "20",
+    "name": "RENZZO IGNACIO BADILLA SASSARINI",
+    "email": "pazsassarini@gmail.com",
+    "phone": "989023476",
+    "birthDate": "2019-03-14",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0,
+    "tutorName": "GULIANNA SASSARINI POBLETE"
+  },
+  {
+    "id": "21",
+    "name": "Matías Ignacio Riffo Padilla",
+    "email": "riffo.prevencion@gmail.com",
+    "phone": "977890289",
+    "birthDate": "1995-05-04",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-03",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-03-02",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-03-02",
+    "monthlyFee": 35000
+  },
+  {
+    "id": "22",
+    "name": "Joaquín Ignacio parra San Martín",
+    "email": "parragxts@gmail.com",
+    "phone": "+56986092559",
+    "birthDate": "2008-08-20",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-11",
+        "status": "Completado",
+        "amount": 45000
+      }
+    ],
+    "plan": "4 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-11",
+    "monthlyFee": 45000
+  },
+  {
+    "id": "23",
+    "name": "Nicolas Fernando Sanchez Mansilla",
+    "email": "nicofernandosanchez2004@gmail.com",
+    "phone": "+56944841596",
+    "birthDate": "2004-11-28",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-02",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-02",
+    "monthlyFee": 35000
+  },
+  {
+    "id": "24",
+    "name": "Ricardo Andrés Morales Osorio",
+    "email": "rkardo.115@gmail.com",
+    "phone": "‪+56 9 5673 3797‬",
+    "birthDate": "2001-04-07",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-03",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-03-02",
+        "status": "Completado",
+        "amount": 20000
+      }
+    ],
+    "plan": "3 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-03-02",
+    "monthlyFee": 20000
+  },
+  {
+    "id": "25",
+    "name": "Karlyng Fernanda Silva Leal",
+    "email": "karlyng.silva@gmail.com",
+    "phone": "973749981",
+    "birthDate": "1997-04-10",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0
+  },
+  {
+    "id": "26",
+    "name": "Leonardo Pereira",
+    "email": "l.pereiracampodonico@gmail.com",
+    "phone": "90997120",
+    "birthDate": "1988-11-15",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-01",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-01-29",
+        "status": "Completado",
+        "amount": 40000
+      }
+    ],
+    "plan": "3 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-01-29",
+    "monthlyFee": 40000
+  },
+  {
+    "id": "27",
+    "name": "José Antonio Monsálvez García",
+    "email": "jmonsalvez.garcia@gmail.com",
+    "phone": "930530243",
+    "birthDate": "1992-02-08",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0
+  },
+  {
+    "id": "28",
+    "name": "Lizbeth Daniela Mendez Pozo",
+    "email": "adictaacristo19@gmail.com",
+    "phone": "967232638",
+    "birthDate": "2010-08-31",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0,
+    "tutorName": "Jonathan"
+  },
+  {
+    "id": "29",
+    "name": "Maite Novoa Vargas",
+    "email": "roberto.novoa.o@gmail.com",
+    "phone": "+56987192315",
+    "birthDate": "2013-03-04",
+    "belt": "GRAY",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-10",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-10",
+    "monthlyFee": 35000,
+    "tutorName": "Roberto Novoa"
+  },
+  {
+    "id": "30",
+    "name": "Sofía Elizabeth Aravalé Chávez",
+    "email": "sofia.aravalech@gmail.com",
+    "phone": "987876243",
+    "birthDate": "1999-03-27",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-03",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-03-03",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-03-03",
+    "monthlyFee": 35000
+  },
+  {
+    "id": "31",
+    "name": "Bruno Novoa Vargas",
+    "email": "roberto.novoa.o@gmail.com",
+    "phone": "+56987192315",
+    "birthDate": "2019-06-12",
+    "belt": "GRAY",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-10",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-10",
+    "monthlyFee": 35000,
+    "tutorName": "Roberto Novoa"
+  },
+  {
+    "id": "32",
+    "name": "Rodrigo Leandro de Jesus Fuentes Diaz",
+    "email": "andrybustamante00@gmail.com",
+    "phone": "9 6675 9051",
+    "birthDate": "2016-10-09",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-12",
+        "status": "Completado",
+        "amount": 40000
+      }
+    ],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-12",
+    "monthlyFee": 40000,
+    "tutorName": "Andry Bustamante"
+  },
+  {
+    "id": "33",
+    "name": "Luan Agustín Villalobos Morales",
+    "email": "sofyrp0304@gmail.com",
+    "phone": "932918070",
+    "birthDate": "2017-04-03",
+    "belt": "GRAY",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [
+      {
+        "date": "2025-02-10",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2025-02-10",
+    "monthlyFee": 35000,
+    "tutorName": "Sofia morales"
+  },
+  {
+    "id": "34",
+    "name": "Rafaela Paz Aguilef Díaz",
+    "email": "Taniia.diazc@gmail.com",
+    "phone": "945814605",
+    "birthDate": "2017-12-05",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-02",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-02",
+    "monthlyFee": 35000,
+    "tutorName": "Tania Díaz"
+  },
+  {
+    "id": "35",
+    "name": "Nicolás Felipe Mellado Novoa",
+    "email": "nicolasmelladonv22@gmail.com",
+    "phone": "+56953207538",
+    "birthDate": "1997-10-20",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-01",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-01-31",
+        "status": "Completado",
+        "amount": 45000
+      }
+    ],
+    "plan": "3 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-01-31",
+    "monthlyFee": 45000
+  },
+  {
+    "id": "36",
+    "name": "Antonella Ignacia Lofiego Cabeza",
+    "email": "Claudiolofiegoespinoza@hotmail.com",
+    "phone": "942422726",
+    "birthDate": "2014-12-16",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2025-12",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2025-12-17",
+        "status": "Completado",
+        "amount": 40000
+      }
+    ],
+    "plan": "3 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2025-12-17",
+    "monthlyFee": 40000,
+    "tutorName": "Claudio Anibal Lofiego Espinoza"
+  },
+  {
+    "id": "37",
+    "name": "camile espinosa escobar",
+    "email": "camilaespinosa.e@gmail.com",
+    "phone": "+569 52282974",
+    "birthDate": "1994-11-20",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0
+  },
+  {
+    "id": "38",
+    "name": "Felipe Eduardo Muñoz Valderrama",
+    "email": "felipe.emu@gmail.com",
+    "phone": "990710545",
+    "birthDate": "1994-10-23",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [
+      {
+        "date": "2025-10-02",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2025-10-02",
+    "monthlyFee": 35000
+  },
+  {
+    "id": "39",
+    "name": "Cristóbal Gamaliel Hernández Lagos",
+    "email": "c.hernandezlagos14@gmail.com",
+    "phone": "+56 9 4443 8408",
+    "birthDate": "2007-06-08",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-09",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-09",
+    "monthlyFee": 35000
+  },
+  {
+    "id": "40",
+    "name": "Rodrigo Andres Salgado Contreras",
+    "email": "rsalgadoc2@gmail.com",
+    "phone": "933579419",
+    "birthDate": "1998-12-03",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-27",
+        "status": "Completado",
+        "amount": 50000
+      }
+    ],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-27",
+    "monthlyFee": 50000
+  },
+  {
+    "id": "41",
+    "name": "Edgard Benjamín quijada salvó",
+    "email": "edgardbenjaminquijadasalvo@gmail.com",
+    "phone": "+56928511478",
+    "birthDate": "2007-02-28",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0
+  },
+  {
+    "id": "42",
+    "name": "Kevin Leonardo soto garrido",
+    "email": "Kevinsotogarrido@gmail.com",
+    "phone": "934874779",
+    "birthDate": "2000-12-23",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-01",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-01-05",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-01-05",
+    "monthlyFee": 35000
+  },
+  {
+    "id": "43",
+    "name": "Benjamin Andres Parra Poblete",
+    "email": "benjaminpa2002@gmail.com",
+    "phone": "+56999022351",
+    "birthDate": "2002-07-06",
+    "belt": "BLUE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0
+  },
+  {
+    "id": "44",
+    "name": "Fernanda Valentina Villalobos Castillo",
+    "email": "alex.villalobos.vargas95@gmail.com",
+    "phone": "935281676",
+    "birthDate": "2013-01-26",
+    "belt": "GRAY",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-01",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-01-27",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-01-27",
+    "monthlyFee": 35000,
+    "tutorName": "Alex Villalobos Vargas"
+  },
+  {
+    "id": "45",
+    "name": "Lucas Araneda",
+    "email": "lucas.araneda@icloud.com",
+    "phone": "+56 9 5262 4053",
+    "birthDate": "2010-05-29",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-06",
+        "status": "Completado",
+        "amount": 45000
+      }
+    ],
+    "plan": "3 X SEMANA",
+    "joinDate": "Ingreso 27/10/25",
+    "lastPaymentDate": "2026-02-06",
+    "monthlyFee": 45000,
+    "tutorName": "Lidia Carrasco"
+  },
+  {
+    "id": "46",
+    "name": "Samuel Jesús Urrea Rojas",
+    "email": "samuel.urrearojas@gmail.com",
+    "phone": "952344149",
+    "birthDate": "2005-04-22",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-23",
+        "status": "Completado",
+        "amount": 40000
+      }
+    ],
+    "plan": "3 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-23",
+    "monthlyFee": 40000
+  },
+  {
+    "id": "47",
+    "name": "FACUNDO NAHUEL MUÑOZ PALMA",
+    "email": "maximo.munozcontreras@gmail.com",
+    "phone": "+56997597368",
+    "birthDate": "2018-12-29",
+    "belt": "GRAY",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-04",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-04",
+    "monthlyFee": 35000,
+    "tutorName": "Máximo Andrés Muñoz Contreras"
+  },
+  {
+    "id": "48",
+    "name": "Máximo Antonio jarpa carrasco",
+    "email": "maximojarpa23@gmail.com",
+    "phone": "+56 9 8434 5409",
+    "birthDate": "2010-12-20",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0,
+    "tutorName": "Evelyn carrasco"
+  },
+  {
+    "id": "49",
+    "name": "Amaro Agustín Martínez Avendaño",
+    "email": "soleaven80@gmail.com",
+    "phone": "933222910",
+    "birthDate": "2015-10-12",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-01",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-01-02",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-01-02",
+    "monthlyFee": 35000,
+    "tutorName": "Soledad Avendaño Orellana"
+  },
+  {
+    "id": "50",
+    "name": "Jael Angelina Gricel Varas Romero",
+    "email": "Jaelvaras.r@gmail.com",
+    "phone": "+56 9 8449 3775",
+    "birthDate": "2006-11-21",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-03",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-03-02",
+        "status": "Completado",
+        "amount": 40000
+      }
+    ],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "2026-03-02",
+    "monthlyFee": 40000
+  },
+  {
+    "id": "51",
+    "name": "Sara Victoria Sierra Mendoza",
+    "email": "Mijaquedoza@gmail.com",
+    "phone": "937059744",
+    "birthDate": "2013-04-17",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-18",
+        "status": "Completado",
+        "amount": 40000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-18",
+    "monthlyFee": 40000,
+    "tutorName": "Mailin Mendoza o Jose Sierra"
+  },
+  {
+    "id": "52",
+    "name": "Santino Nahuel Garrido Sepúlveda",
+    "email": "Constanza.sepulveda7@yahoo.cl",
+    "phone": "+569 97302897",
+    "birthDate": "2019-01-19",
+    "belt": "GRAY",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-01",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-01-05",
+        "status": "Completado",
+        "amount": 20000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-01-05",
+    "monthlyFee": 20000,
+    "tutorName": "Constanza Sepúlveda"
+  },
+  {
+    "id": "53",
+    "name": "Constanza Sepúlveda Muñoz",
+    "email": "Constanza.sepulveda7@yahoo.cl",
+    "phone": "+569 97302897",
+    "birthDate": "1989-12-05",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-05",
+        "status": "Completado",
+        "amount": 40000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-05",
+    "monthlyFee": 40000
+  },
+  {
+    "id": "54",
+    "name": "Bernel Ignacio Ortega Contreras",
+    "email": "bernelces@gmail.com",
+    "phone": "972430464",
+    "birthDate": "1995-09-22",
+    "belt": "BLUE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-03",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-03-04",
+        "status": "Completado",
+        "amount": 40000
+      }
+    ],
+    "plan": "3 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-03-04",
+    "monthlyFee": 40000
+  },
+  {
+    "id": "55",
+    "name": "Maximiliano Alonso Canessa Portilla",
+    "email": "geronimo.canessa@gmail.com",
+    "phone": "948786713",
+    "birthDate": "2017-06-11",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2025-12",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2025-12-01",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2025-12-01",
+    "monthlyFee": 35000,
+    "tutorName": "Gerónimo Canessa Burgos"
+  },
+  {
+    "id": "56",
+    "name": "Josefa Beatriz  Montecinos Aliaga",
+    "email": "jmontecinoscerna@gmail.com",
+    "phone": "994692147",
+    "birthDate": "2014-11-17",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-02",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-02",
+    "monthlyFee": 35000,
+    "tutorName": "Juan montecinos"
+  },
+  {
+    "id": "57",
+    "name": "Luis Javier Riquelme Lizama",
+    "email": "javier.rl160394@gmail.com",
+    "phone": "+56983662798",
+    "birthDate": "1994-03-16",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0
+  },
+  {
+    "id": "58",
+    "name": "Amparo Celeste Aguilera Fuenzalida",
+    "email": "Nhaguilerac@gmail.com",
+    "phone": "958817569",
+    "birthDate": "2021-03-02",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "",
+    "monthlyFee": 0,
+    "tutorName": "Nicolas Aguilera"
+  },
+  {
+    "id": "59",
+    "name": "Tomás Santiago Riquelme Rojas",
+    "email": "rodrigoa.riquelmes@gmail.com",
+    "phone": "+569 77944238",
+    "birthDate": "2018-11-07",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [],
+    "plan": "",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-03",
+    "monthlyFee": 0,
+    "tutorName": "Rodrigo Riquelme Schlegel"
+  },
+  {
+    "id": "60",
+    "name": "Balder Arturo Betancourt Rangel",
+    "email": "wrangelh@gmail.com",
+    "phone": "979830874",
+    "birthDate": "2014-05-17",
+    "belt": "GRAY",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-24",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-24",
+    "monthlyFee": 35000,
+    "tutorName": "Walkiria Rangel"
+  },
+  {
+    "id": "61",
+    "name": "Julieta Sánchez",
+    "email": "jensanchez.17@gmail.com",
+    "phone": "940620836",
+    "birthDate": "2015-11-05",
+    "belt": "GRAY",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2025-12",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2025-12-30",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "1 X SEMANA",
+    "joinDate": "2025-08-22 00:00:00",
+    "lastPaymentDate": "2025-12-30",
+    "monthlyFee": 35000,
+    "tutorName": "JENIFFER SANCHEZ"
+  },
+  {
+    "id": "62",
+    "name": "Vicente Agustin Salgado Fuentes",
+    "email": "vicentesalgado07@hotmail.com",
+    "phone": "992353403",
+    "birthDate": "2000-02-03",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-01",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-01-24",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-01-24",
+    "monthlyFee": 35000
+  },
+  {
+    "id": "63",
+    "name": "Florencia Antonia Almonacid Guzmán",
+    "email": "kmguzmanr@gmail.com",
+    "phone": "977795843",
+    "birthDate": "2012-04-11",
+    "belt": "GRAY",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-03",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-03-02",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-03-02",
+    "monthlyFee": 35000,
+    "tutorName": "Jorge almonacid"
+  },
+  {
+    "id": "64",
+    "name": "Pablo Sebastian Araneda Monroy",
+    "email": "Pablo.sebastianaraneda@gmail.com",
+    "phone": "+56984078718",
+    "birthDate": "2004-02-22",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-21",
+        "status": "Completado",
+        "amount": 25000
+      }
+    ],
+    "plan": "1 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-21",
+    "monthlyFee": 25000
+  },
+  {
+    "id": "65",
+    "name": "Jose Esteban Rivas Villarroel",
+    "email": "joseestebanrivas@gmail.com",
+    "phone": "+56974642697",
+    "birthDate": "1995-10-03",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "",
+    "isPaid": false,
+    "history": [],
+    "plan": "4 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2025-07-21",
+    "monthlyFee": 0
+  },
+  {
+    "id": "66",
+    "name": "Diego Hernán Echeverría Mix",
+    "email": "decheverriam10@gmail.com",
+    "phone": "+56984678492",
+    "birthDate": "1995-08-05",
+    "belt": "WHITE",
+    "classesAttended": 0,
+    "classesToNextBelt": 40,
+    "lastPaymentMonth": "2026-02",
+    "isPaid": true,
+    "history": [
+      {
+        "date": "2026-02-18",
+        "status": "Completado",
+        "amount": 35000
+      }
+    ],
+    "plan": "2 X SEMANA",
+    "joinDate": "",
+    "lastPaymentDate": "2026-02-18",
+    "monthlyFee": 35000
+  }
+];
