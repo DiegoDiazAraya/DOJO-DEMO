@@ -13,7 +13,7 @@ services:
         sync: false # Should be set in Render dashboard
       - key: FRONTEND_URL
         fromService:
-          type: static
+          type: static_site
           name: dojo-demo-client
           property: url
     disk:
@@ -22,7 +22,7 @@ services:
       sizeGB: 1
 
   # Frontend Client
-  - type: static
+  - type: static_site
     name: dojo-demo-client
     runtime: static
     buildCommand: npm install && npm run build
