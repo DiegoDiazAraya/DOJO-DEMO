@@ -118,24 +118,27 @@ const App: React.FC = () => {
         const studentsData = await studentsRes.json();
         const videosData = await videosRes.json();
 
-        // Ensure test account exists locally if not in DB (for demo)
-        if (!studentsData.some((s: Student) => s.email === 'test@ranas.cl')) {
-          studentsData.push({
-            id: 'demo-test-account-123',
-            name: 'ALUMNO DE PRUEBA',
-            email: 'test@ranas.cl',
-            password: 'TEST',
-            phone: '+5690000000',
-            belt: 'WHITE',
-            classesAttended: 15,
-            classesToNextBelt: 40,
-            lastPaymentMonth: '',
-            isPaid: true,
-            history: [],
-            plan: '3',
-            monthlyFee: 40000
-          });
-        }
+        // Ensure test accounts exist locally if not in DB (for demo)
+        const testEmails = ['test@ranas.cl', 'pago@test.cl'];
+        testEmails.forEach(email => {
+          if (!studentsData.some((s: Student) => s.email === email)) {
+            studentsData.push({
+              id: email === 'test@ranas.cl' ? 'demo-test-account-123' : 'pago-test-account-456',
+              name: email === 'test@ranas.cl' ? 'ALUMNO DE PRUEBA' : 'PAGO TEST',
+              email: email,
+              password: email === 'test@ranas.cl' ? 'TEST' : 'PAGO',
+              phone: '+5690000000',
+              belt: 'WHITE',
+              classesAttended: 15,
+              classesToNextBelt: 40,
+              lastPaymentMonth: '',
+              isPaid: true,
+              history: [],
+              plan: '3',
+              monthlyFee: 40000
+            });
+          }
+        });
 
         setStudents(studentsData);
         setVideos(videosData);
@@ -387,7 +390,7 @@ const App: React.FC = () => {
           <div className="section-container">
             <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '8rem', alignItems: 'center' }}>
               <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}>
-                <span style={{ color: 'var(--logo-green)', fontWeight: 900, letterSpacing: '0.6em', fontSize: '0.8rem', textTransform: 'uppercase', display: 'block', marginBottom: '3rem' }}>Concepción • Chile • Lautaro 581</span>
+                <span style={{ color: 'var(--logo-green)', fontWeight: 900, letterSpacing: '0.6em', fontSize: '0.8rem', textTransform: 'uppercase', display: 'block', marginBottom: '3rem' }}>Concepción • Chile • Orompello 1421</span>
                 <h1 style={{ fontSize: '8.5rem', marginBottom: '3rem', color: 'var(--text-main)', maxWidth: '1000px', lineHeight: 0.85 }}>
                   PRECISIÓN <br /><span style={{ color: 'transparent', WebkitTextStroke: '2px var(--logo-green)' }}>SIN</span> <br /><span style={{ color: 'var(--logo-green)' }}>LÍMITES.</span>
                 </h1>
@@ -497,21 +500,23 @@ const App: React.FC = () => {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4rem' }}>
               {[
                 {
-                  date: '02 Mar, 2024',
-                  title: 'Victoria en el Nacional de Santiago',
-                  desc: 'Nuestro equipo de competición dominó el podio con 8 medallas totales en las categorías juvenil y adulto.',
+                  date: '09 Jul, 2025',
+                  title: 'Nueva Versión del Frog Challenge Kids',
+                  desc: 'El torneo de Jiu Jitsu juvenil más importante de la región se toma Concepción en su tercera versión.',
+                  link: 'https://www.canal9.cl/episodios/nuestra-casa/2025/07/09/llega-la-tercera-version-del-frog-challenge-kids-torneo-de-jiu-jitsu-juvenil-se-toma-concepcion',
                   img: 'https://images.unsplash.com/photo-1599058917232-d750c185ca0d?w=600'
                 },
                 {
-                  date: '28 Feb, 2024',
-                  title: 'Seminario de Guardia Lapel con M. Plaza',
-                  desc: 'Exploraremos las mecánicas modernas de la guardia de solapa y sus transiciones más efectivas el próximo sábado.',
+                  date: '16 Feb, 2023',
+                  title: 'Manuel Plaza: Medallas en EE.UU.',
+                  desc: 'El profesor Manuel Plaza destaca en el US Open sumando medallas para el dojo y Concepción.',
+                  link: 'https://www.diarioconcepcion.cl/deportes/2023/02/16/manuel-plaza-penquista-suma-medallas-en-tatamis-estadounidenses.html',
                   img: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=600'
                 },
                 {
                   date: '20 Feb, 2024',
-                  title: 'Inauguración: Nueva Área Zen de Relax',
-                  desc: 'Hemos diseñado un nuevo espacio post-entrenamiento para la recuperación física y mental de nuestros alumnos.',
+                  title: 'Inauguración: Nueva Área de Relax',
+                  desc: 'Hemos diseñado un nuevo espacio post-entrenamiento para la recuperación física de nuestros alumnos.',
                   img: 'https://images.unsplash.com/photo-1528642466442-773a2c6da3f5?w=600'
                 }
               ].map((noticia, i) => (
@@ -523,6 +528,7 @@ const App: React.FC = () => {
                   transition={{ duration: 0.8, delay: i * 0.2 }}
                   whileHover={{ y: -15 }}
                   style={{ cursor: 'pointer' }}
+                  onClick={() => noticia.link && window.open(noticia.link, '_blank')}
                 >
                   <div style={{ height: '350px', borderRadius: '3rem', overflow: 'hidden', marginBottom: '3rem', position: 'relative' }}>
                     <img src={noticia.img} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -563,7 +569,7 @@ const App: React.FC = () => {
                   <span style={{ fontWeight: 900, fontSize: '2rem', letterSpacing: '-2px', color: 'var(--text-main)' }}>RANAS <span style={{ color: 'var(--logo-green)' }}>CONCE</span></span>
                 </div>
                 <p style={{ color: 'var(--text-muted)', lineHeight: 2, fontSize: '1.15rem', maxWidth: '400px', fontWeight: 500 }}>
-                  El epicentro del Jiu Jitsu de alto nivel en Concepción. Lautaro 581. Maestría técnica y comunidad.
+                  El epicentro del Jiu Jitsu de alto nivel en Concepción. Orompello 1421. Maestría técnica y comunidad.
                 </p>
               </div>
               <div>
@@ -579,7 +585,7 @@ const App: React.FC = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>
                   <span>+56 9 3960 1560</span>
                   <span>hola@ranasjiujitsu.cl</span>
-                  <span>Lautaro 581, Concepción</span>
+                  <span>Orompello 1421, Concepción</span>
                 </div>
               </div>
               <div>
