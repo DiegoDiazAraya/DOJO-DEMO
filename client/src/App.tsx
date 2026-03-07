@@ -25,8 +25,7 @@ import {
   ChevronRight,
   Edit2,
   Save,
-  Camera,
-  RefreshCcw
+  Camera
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import QRCode from 'react-qr-code';
@@ -107,7 +106,6 @@ const App: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEditingStudent, setIsEditingStudent] = useState(false);
   const [editedStudent, setEditedStudent] = useState<Student | null>(null);
-  const [isSyncing, setIsSyncing] = useState(false);
 
   // API Data Loading
   useEffect(() => {
@@ -172,29 +170,6 @@ const App: React.FC = () => {
     }
   };
 
-  const handleSyncMPPayments = async (studentId: string) => {
-    setIsSyncing(true);
-    try {
-      const response = await fetch(`${API_URL}/api/students/${studentId}/sync-payments`, {
-        method: 'POST'
-      });
-      const data = await response.json();
-      if (response.ok) {
-        alert(data.message);
-        if (data.addedCount > 0) {
-          setStudents(prev => prev.map(s => s.id === data.student.id ? data.student : s));
-          setSelectedStudent(data.student);
-        }
-      } else {
-        alert("Error: " + data.error);
-      }
-    } catch (error) {
-      console.error("Error syncing payments:", error);
-      alert("No se pudo conectar con el servidor para sincronizar.");
-    } finally {
-      setIsSyncing(false);
-    }
-  };
 
   const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>, student: Student) => {
     const file = e.target.files?.[0];
