@@ -7,13 +7,10 @@ import {
   TrendingUp,
   Search,
   Plus,
-  Leaf,
   Settings,
   LogOut,
   Award,
   Play,
-  Trophy,
-  Activity,
   Instagram,
   Facebook,
   X,
@@ -24,15 +21,24 @@ import {
   VolumeX,
   ArrowRight,
   ChevronRight,
+  ChevronLeft,
   Edit2,
   Save,
-  Camera
+  Camera,
+  ImageIcon,
+  Monitor
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import QRCode from 'react-qr-code';
 
 // Leaf, Mail, Smartphone, LogIn, Menu removed (not used in current design)
-const SocialVideoPlayer: React.FC<{ src: string, showSlider?: boolean, size?: 'sm' | 'lg' }> = ({ src, showSlider = true, size = 'sm' }) => {
+const SocialVideoPlayer: React.FC<{ 
+  src: string, 
+  showSlider?: boolean, 
+  size?: 'sm' | 'lg', 
+  isActive?: boolean, 
+  onEnded?: () => void 
+}> = ({ src, showSlider = true, size = 'sm', isActive = true, onEnded }) => {
   const [localMute, setLocalMute] = useState(true);
   const [localVolume, setLocalVolume] = useState(0.2);
   const videoRef = React.useRef<HTMLVideoElement>(null);
@@ -41,19 +47,29 @@ const SocialVideoPlayer: React.FC<{ src: string, showSlider?: boolean, size?: 's
     if (videoRef.current) videoRef.current.volume = localVolume;
   }, [localVolume]);
 
+  useEffect(() => {
+    if (videoRef.current) {
+      if (isActive) {
+        videoRef.current.play().catch(err => console.log("Video play interrupted", err));
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  }, [isActive]);
+
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <video
         ref={videoRef}
-        autoPlay
+        autoPlay={isActive}
         muted={localMute}
-        loop
+        onEnded={onEnded}
         playsInline
-        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: isActive ? 1 : 0.6, transition: 'opacity 0.5s' }}
       >
         <source src={src} type="video/mp4" />
       </video>
-      <div style={{ position: 'absolute', bottom: size === 'lg' ? '20px' : '1rem', right: size === 'lg' ? '20px' : '1rem', display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(0,0,0,0.6)', padding: size === 'lg' ? '8px 15px' : '5px 10px', borderRadius: '30px', backdropFilter: 'blur(10px)', zIndex: 10, border: '1px solid var(--glass-border)' }}>
+      <div style={{ position: 'absolute', bottom: size === 'lg' ? '20px' : '1rem', right: size === 'lg' ? '20px' : '1rem', display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(0,0,0,0.6)', padding: size === 'lg' ? '8px 15px' : '5px 10px', borderRadius: '30px', backdropFilter: 'blur(10px)', zIndex: 10, border: '1px solid var(--glass-border)', opacity: isActive ? 1 : 0 }}>
         <button
           onClick={(e) => { e.stopPropagation(); setLocalMute(!localMute); }}
           style={{ background: 'none', border: 'none', color: 'var(--text-main)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
@@ -69,7 +85,6 @@ const SocialVideoPlayer: React.FC<{ src: string, showSlider?: boolean, size?: 's
             style={{ width: size === 'lg' ? '80px' : '40px', height: '4px', cursor: 'pointer', accentColor: 'var(--logo-green)' }}
           />
         )}
-        {!localMute && size === 'lg' && <span style={{ fontSize: '0.7rem', fontWeight: 800, minWidth: '30px' }}>{Math.round(localVolume * 100)}%</span>}
       </div>
     </div>
   );
@@ -88,14 +103,79 @@ import type {
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
+const newsItems = [
+  {
+    title: "Frog Challenge Kids eleva el nivel y pone al sur en el mapa del Jiu Jitsu infantil",
+    body: "Más de 80 niños y adolescentes dieron vida a la tercera edición del torneo organizado por Ranas Jiu Jitsu, que reunió a equipos de distintas regiones en el gimnasio municipal de la capital penquista.",
+    img: "/assets/news_frog_challenge_v2.jpg",
+    link: "https://www.diarioconcepcion.cl/deportes/2025/07/15/frog-challenge-kids-eleva-el-nivel-y-pone-al-sur-en-el-mapa-del-jiu-jitsu-infantil.html",
+    label: "Noticias del Dojo",
+    date: "15 Jul, 2025",
+    stats: [
+      { label: 'Evento', text: 'Frog Challenge 3' },
+      { label: 'Participantes', text: '80+ Atletas' },
+      { label: 'Sede', text: 'Gimnasio Municipal' },
+      { label: 'Organiza', text: 'Ranas Jiu Jitsu' }
+    ]
+  },
+  {
+    title: "Manuel Plaza: penquista suma medallas en tatamis estadounidenses",
+    body: "El profesor Manuel Plaza conquistó cuatro medallas, dos de ellas de oro, en el Oklahoma City International Open. El deportista se formó al alero del destacado instructor Reinaldo Duguet.",
+    img: "/assets/news_manuel_medals_v2.jpeg",
+    link: "https://www.diarioconcepcion.cl/deportes/2023/02/16/manuel-plaza-penquista-suma-medallas-en-tatamis-estadounidenses.html",
+    label: "Logro Internacional",
+    date: "16 Feb, 2023",
+    stats: [
+      { label: 'Torneo', text: 'Oklahoma City Open' },
+      { label: 'Medallas', text: '2 Oros, 2 Platas' },
+      { label: 'Ranking', text: '#155 Mundial' },
+      { label: 'Categoría', text: 'Master 1 Súper Pesado' }
+    ]
+  },
+  {
+    title: "Canal 9 Biobío: BJJ como Herramienta de Formación Integral",
+    body: "En entrevista con Canal 9, Manuel Plaza destacó el impacto del Brazilian Jiu Jitsu en menores de 5 a 17 años, fomentando el autocontrol y la disciplina como bases del desarrollo personal.",
+    img: "https://images.unsplash.com/photo-1552072047-54d19335391c?w=800",
+    link: "https://www.canal9.cl/episodios/nuestra-casa/2025/07/09/llega-la-tercera-version-del-frog-challenge-kids-torneo-de-jiu-jitsu-juvenil-se-toma-concepcion",
+    label: "Entrevista Canal 9",
+    date: "09 Jul, 2025",
+    stats: [
+      { label: 'Cobertura', text: 'Canal 9 Biobío' },
+      { label: 'Programa', text: 'Nuestra Casa' },
+      { label: 'Enfoque', text: 'Formación Integral' },
+      { label: 'Edades', text: '5 a 17 años' }
+    ]
+  }
+];
+
 const App: React.FC = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('landing');
   const [role, setRole] = useState<UserRole>('guest');
   const [currentUser, setCurrentUser] = useState<Student | null>(null);
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'students' | 'attendance' | 'payments' | 'settings' | 'videos'>('dashboard');
+  const [activeHeroVideo, setActiveHeroVideo] = useState(0);
+  const [activeNews, setActiveNews] = useState(0);
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'students' | 'attendance' | 'payments' | 'settings' | 'videos' | 'website'>('dashboard');
+  const [liveNews, setLiveNews] = useState(newsItems);
+  const [liveHeroVideos, setLiveHeroVideos] = useState([
+    "/assets/WhatsApp Video 2026-03-04 at 3.29.01 PM.mp4",
+    "/assets/WhatsApp Video 2026-03-04 at 3.29.02 PM.mp4",
+    "/assets/WhatsApp Video 2026-03-04 at 3.29.03 PM.mp4"
+  ]);
   const [studentSearchTerm, setStudentSearchTerm] = useState('');
   const [studentFilterAge, setStudentFilterAge] = useState<'ALL' | 'KIDS' | 'ADULTS'>('ALL');
   const [studentFilterBelt, setStudentFilterBelt] = useState<Belt | 'ALL'>('ALL');
+  const [liveGallery, setLiveGallery] = useState([
+    { img: '/assets/WhatsApp Image 2026-03-04 at 3.39.08 PM.jpeg', size: 'large' },
+    { img: '/assets/frog_challenge.jpeg', size: 'small' },
+    { img: '/assets/frog_combat_1.jpeg', size: 'small' },
+    { img: 'https://images.unsplash.com/photo-1599058917232-d750c185ca0d?w=800', size: 'tall' },
+    { img: '/assets/frog_face.jpeg', size: 'small' },
+    { img: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=800', size: 'wide' },
+    { img: '/assets/frog_combat_2.jpeg', size: 'small' },
+    { img: 'https://images.unsplash.com/photo-1552072047-54d19335391c?w=800', size: 'small' },
+  ]);
+  const [isAddingGallery, setIsAddingGallery] = useState(false);
+  const [newGalleryData, setNewGalleryData] = useState<{ img: string, size: 'small' | 'wide' | 'tall' | 'large' }>({ img: '', size: 'small' });
   const [videoFilter, setVideoFilter] = useState<Belt | 'ALL'>('ALL');
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [showQRModal, setShowQRModal] = useState(false);
@@ -105,19 +185,48 @@ const App: React.FC = () => {
   const [newVideoData, setNewVideoData] = useState<Omit<Video, 'id'>>({ title: '', description: '', url: '', thumbnail: '', beltLevel: 'WHITE', category: 'Tecnica' });
   const [isAddingStudent, setIsAddingStudent] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSendingNotice, setIsSendingNotice] = useState(false);
+  const [isAddingNews, setIsAddingNews] = useState(false);
+  const [newNewsData, setNewNewsData] = useState({ 
+    title: '', 
+    body: '', 
+    img: '', 
+    link: '#', 
+    label: 'Noticias del Dojo', 
+    date: new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'short', year: 'numeric' }),
+    stats: [{ label: 'Evento', text: '' }]
+  });
+  const [loginStep, setLoginStep] = useState<'choice' | 'admin-pass' | 'student-select'>('choice');
+  const [adminPassword, setAdminPassword] = useState('');
+  const [authEmail, setAuthEmail] = useState('');
+  const [authPassword, setAuthPassword] = useState('');
   const [isEditingStudent, setIsEditingStudent] = useState(false);
   const [editedStudent, setEditedStudent] = useState<Student | null>(null);
+  const [studentNewPassword, setStudentNewPassword] = useState('');
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveNews(prev => (prev + 1) % liveNews.length);
+    }, 15000);
+    return () => clearInterval(timer);
+  }, [liveNews.length]);
 
   // API Data Loading
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [studentsRes, videosRes] = await Promise.all([
+        const [studentsRes, videosRes, newsRes, galleryRes, heroVideosRes] = await Promise.all([
           fetch(`${API_URL}/api/students`),
-          fetch(`${API_URL}/api/videos`)
+          fetch(`${API_URL}/api/videos`),
+          fetch(`${API_URL}/api/news`),
+          fetch(`${API_URL}/api/gallery`),
+          fetch(`${API_URL}/api/hero-videos`)
         ]);
         const studentsData = await studentsRes.json();
         const videosData = await videosRes.json();
+        const newsData = await newsRes.json();
+        const galleryData = await galleryRes.json();
+        const heroVideosData = await heroVideosRes.json();
 
         // Ensure test accounts exist locally if not in DB (for demo)
         const testEmails = ['test@ranas.cl', 'pago@test.cl'];
@@ -143,12 +252,28 @@ const App: React.FC = () => {
 
         setStudents(studentsData);
         setVideos(videosData);
+        if (newsData.length > 0) setLiveNews(newsData);
+        if (galleryData.length > 0) setLiveGallery(galleryData);
+        if (heroVideosData.length > 0) setLiveHeroVideos(heroVideosData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
   }, []);
+
+  const syncWebsite = async (type: 'news' | 'gallery' | 'hero-videos', data: any) => {
+    try {
+      const endpoint = type === 'hero-videos' ? 'hero-videos' : type;
+      await fetch(`${API_URL}/api/${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch (e) {
+      console.error(`Error syncing ${type}:`, e);
+    }
+  };
 
   const handleUpdateStudent = async (updatedStudent: Student) => {
     try {
@@ -182,6 +307,14 @@ const App: React.FC = () => {
       const updated = { ...student, avatar: base64String };
       handleUpdateStudent(updated);
     };
+    reader.readAsDataURL(file);
+  };
+
+  const handleGenericImageUpload = (e: React.ChangeEvent<HTMLInputElement>, callback: (base64: string) => void) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => callback(reader.result as string);
     reader.readAsDataURL(file);
   };
 
@@ -220,13 +353,6 @@ const App: React.FC = () => {
       alert("❌ Ocurrió un error al intentar conectarse con el servidor.");
     }
   };
-  const [isSendingNotice, setIsSendingNotice] = useState(false);
-  const [loginStep, setLoginStep] = useState<'choice' | 'admin-pass' | 'student-select'>('choice');
-  const [adminPassword, setAdminPassword] = useState('');
-  const [authEmail, setAuthEmail] = useState('');
-  const [authPassword, setAuthPassword] = useState('');
-  const [studentNewPassword, setStudentNewPassword] = useState('');
-
   const [newStudentData, setNewStudentData] = useState({ name: '', email: '', phone: '', birthDate: '', documentId: '', belt: 'WHITE' as Belt, plan: '3', monthlyFee: 40000 });
   const [noticeData, setNoticeData] = useState({ subject: 'Aviso Importante', message: 'Legado Ranas BJJ' });
 
@@ -377,188 +503,223 @@ const App: React.FC = () => {
             </div>
             <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
               <a href="#inicio" style={{ fontWeight: 800, color: 'var(--text-main)', textDecoration: 'none', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', opacity: 0.8 }}>Inicio</a>
-              <a href="#profesor" style={{ fontWeight: 800, color: 'var(--text-main)', textDecoration: 'none', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', opacity: 0.8 }}>Profesor</a>
-              <a href="#noticias" style={{ fontWeight: 800, color: 'var(--text-main)', textDecoration: 'none', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', opacity: 0.8 }}>Noticias</a>
-              <a href="#galeria" style={{ fontWeight: 800, color: 'var(--text-main)', textDecoration: 'none', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', opacity: 0.8 }}>Galería</a>
+              <a href="#profesor" style={{ fontWeight: 800, color: 'var(--text-main)', textDecoration: 'none', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', opacity: 0.8 }}>Noticias</a>
+              <a href="#gallery" style={{ fontWeight: 800, color: 'var(--text-main)', textDecoration: 'none', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.15em', opacity: 0.8 }}>Galería</a>
               <div style={{ width: '1px', height: '24px', background: 'var(--glass-border)' }} />
               <button style={{ background: 'var(--logo-green)', border: 'none', padding: '0.8rem 1.8rem', borderRadius: '50px', fontWeight: 900, fontSize: '0.8rem', textTransform: 'uppercase', cursor: 'pointer', color: '#fff', boxShadow: '0 10px 20px rgba(5, 168, 106, 0.3)' }} onClick={() => setViewMode('auth')}>Entrar</button>
             </div>
           </div>
         </nav>
 
-        {/* Hero Section */}
-        <section id="inicio" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '15rem 0 10rem', position: 'relative' }}>
+        {/* Hero Section - 1. INICIO */}
+        <section id="inicio" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '12rem 0 2rem', position: 'relative', overflow: 'visible' }}>
           <div className="mesh-gradient" style={{ opacity: 0.2 }} />
           <div className="section-container">
-            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '8rem', alignItems: 'center' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '4rem', alignItems: 'center' }}>
               <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}>
-                <span style={{ color: 'var(--logo-green)', fontWeight: 900, letterSpacing: '0.6em', fontSize: '0.8rem', textTransform: 'uppercase', display: 'block', marginBottom: '3rem' }}>Concepción • Chile • Orompello 1421</span>
-                <h1 style={{ fontSize: '8.5rem', marginBottom: '3rem', color: 'var(--text-main)', maxWidth: '1000px', lineHeight: 0.85 }}>
-                  PRECISIÓN <br /><span style={{ color: 'transparent', WebkitTextStroke: '2px var(--logo-green)' }}>SIN</span> <br /><span style={{ color: 'var(--logo-green)' }}>LÍMITES.</span>
+                <span className="font-cartoon" style={{ color: 'var(--logo-green)', fontWeight: 900, letterSpacing: '0.4em', fontSize: '1.2rem', textTransform: 'uppercase', display: 'block', marginBottom: '2rem' }}>
+                  Concepción • Chile • Orompello 1421
+                </span>
+                <h1 className="font-martial pop-text" style={{ fontSize: '7rem', marginBottom: '3rem', color: 'var(--text-main)', maxWidth: '800px', lineHeight: 0.9 }}>
+                  ÚNETE AL <br />
+                  <span style={{ color: 'var(--logo-green)' }}>PODER</span> <br />
+                  <span style={{ color: 'transparent', WebkitTextStroke: '2px var(--tatami-black)' }}>ANFIBIO.</span>
                 </h1>
-                <p style={{ fontSize: '1.4rem', color: 'var(--text-muted)', marginBottom: '5rem', maxWidth: '650px', lineHeight: 1.8, fontWeight: 500 }}>
-                  Domina el arte suave bajo el linaje de Manuel Plaza. Un espacio exclusivo diseñado para la excelencia técnica y el máximo rendimiento deportivo.
+                <p style={{ fontSize: '1.4rem', color: 'var(--text-muted)', marginBottom: '4rem', maxWidth: '600px', lineHeight: 1.6, fontWeight: 500 }}>
+                  Domina el arte suave bajo el linaje de Manuel Plaza. Excelencia técnica y el máximo rendimiento deportivo en el corazón de Concepción.
                 </p>
-                <div style={{ display: 'flex', gap: '2.5rem' }}>
-                  <button className="btn-primary" style={{ background: 'var(--logo-green)', padding: '1.5rem 4rem', fontSize: '1rem' }}>Reservar Clase</button>
-                  <button className="btn-secondary" style={{ borderColor: 'rgba(255,255,255,0.2)', color: 'var(--text-main)', padding: '1.5rem 4rem', fontSize: '1rem' }} onClick={() => window.open('https://www.instagram.com/ranasjiujitsu/?hl=es')}>Instagram</button>
+                <div style={{ display: 'flex', gap: '2rem' }}>
+                  <button className="btn-cartoon">Reservar Clase</button>
+                  <button className="btn-secondary" style={{ padding: '1.2rem 3rem' }} onClick={() => window.open('https://www.instagram.com/ranasjiujitsu/?hl=es')}>Instagram</button>
                 </div>
               </motion.div>
 
-              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }} style={{ position: 'relative' }}>
-                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '120%', height: '120%', background: 'var(--logo-green)', filter: 'blur(100px)', opacity: 0.1, zIndex: -1 }}></div>
-                <div style={{ aspectRatio: '9/15', borderRadius: 'var(--radius-xl)', overflow: 'hidden', boxShadow: '0 50px 100px var(--bg-glass)', border: '1px solid var(--glass-border)', background: '#000', transform: 'perspective(1000px) rotateY(-5deg) rotateX(2deg)' }}>
-                  <SocialVideoPlayer src="/assets/WhatsApp Video 2026-03-04 at 3.26.31 PM.mp4" size="lg" showSlider={false} />
+              <div className="hero-video-wrapper">
+                <div className="hero-video-container"
+                  onTouchStart={(e) => {
+                    const touch = e.touches[0];
+                    (e.currentTarget as any).touchStart = touch.clientX;
+                  }}
+                  onTouchEnd={(e) => {
+                    const startX = (e.currentTarget as any).touchStart;
+                    const endX = e.changedTouches[0].clientX;
+                    if (startX - endX > 50) setActiveHeroVideo((activeHeroVideo + 1) % 3);
+                    if (endX - startX > 50) setActiveHeroVideo((activeHeroVideo - 1 + 3) % 3);
+                  }}
+                  style={{ overflow: 'visible' }}
+                >
+                  {liveHeroVideos.map((src, idx) => {
+                    const offset = (idx - activeHeroVideo + 3) % 3;
+                    const isCenter = offset === 0;
+                    return (
+                      <motion.div 
+                        key={src}
+                        animate={{ 
+                          scale: isCenter ? 1.05 : 0.8,
+                          x: offset === 0 ? 0 : offset === 1 ? 300 : -300,
+                          opacity: isCenter ? 1 : 0.6,
+                          rotateY: offset === 0 ? 0 : offset === 1 ? 20 : -20,
+                          zIndex: isCenter ? 50 : 10,
+                          filter: isCenter ? 'grayscale(0) blur(0px)' : 'grayscale(1) blur(2px)',
+                          pointerEvents: isCenter ? 'auto' : 'none'
+                        }}
+                        transition={{ 
+                          type: "spring", 
+                          stiffness: 100, 
+                          damping: 18
+                        }}
+                        className="hero-video-card"
+                        onClick={() => setActiveHeroVideo(idx)}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <SocialVideoPlayer 
+                          src={src} 
+                          size="lg" 
+                          isActive={isCenter} 
+                          onEnded={() => setActiveHeroVideo((idx + 1) % 3)}
+                        />
+                      </motion.div>
+                    );
+                  })}
                 </div>
-                <div className="glass" style={{ position: 'absolute', bottom: '-2rem', left: '-5rem', padding: '3rem', borderRadius: 'var(--radius-xl)', textAlign: 'center', border: '1px solid var(--logo-green)', background: 'var(--bg-main)' }}>
-                  <h4 style={{ color: 'var(--text-main)', fontSize: '4rem', marginBottom: '0.1rem' }}>17</h4>
-                  <p style={{ color: 'var(--logo-green)', fontWeight: 900, fontSize: '0.8rem', letterSpacing: '0.2em' }}>AÑOS DE LEGADO</p>
+                
+                <div className="slider-controls">
+                  <button className="slider-nav-btn" onClick={() => setActiveHeroVideo((activeHeroVideo - 1 + 3) % 3)}>
+                    <ChevronLeft size={32} strokeWidth={3} />
+                  </button>
+                  <button className="slider-nav-btn" onClick={() => setActiveHeroVideo((activeHeroVideo + 1) % liveHeroVideos.length)}>
+                    <ChevronRight size={32} strokeWidth={3} />
+                  </button>
                 </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        <section style={{ padding: '15rem 0', background: 'rgba(0,0,0,0.02)' }}>
-          <div className="section-container">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '3rem' }}>
-              {[
-                { icon: <Users size={36} />, title: 'Iniciación', desc: 'Niños desde los 5 años' },
-                { icon: <Trophy size={36} />, title: 'Trayectoria', desc: '8 Medallas USA Open' },
-                { icon: <Activity size={36} />, title: 'Metodología', desc: 'Certificado Kronos BJJ' },
-                { icon: <Leaf size={36} />, title: 'Filosofía', desc: 'Zen-Sporty & Seguro' }
-              ].map((item, i) => (
-                <div key={i} className="glass" style={{ padding: '4rem 3rem', borderRadius: '3rem', border: '1px solid var(--glass-border)' }}>
-                  <div style={{ color: 'var(--logo-green)', marginBottom: '2.5rem' }}>{item.icon}</div>
-                  <h4 style={{ fontSize: '1.6rem', marginBottom: '1.2rem', color: 'var(--text-main)', fontWeight: 900 }}>{item.title}</h4>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '1rem', fontWeight: 600, lineHeight: 1.6 }}>{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-
-        <section id="profesor" style={{ padding: '20rem 0', background: 'var(--bg-main)', position: 'relative', overflow: 'hidden' }}>
-          <div className="section-container">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10rem', alignItems: 'center' }}>
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1 }}
-                style={{ position: 'relative' }}
-              >
-                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '120%', height: '120%', background: 'var(--logo-green)', filter: 'blur(100px)', opacity: 0.15, zIndex: -1 }}></div>
-                <div style={{ borderRadius: '4rem', overflow: 'hidden', border: '1px solid var(--logo-green)', boxShadow: '0 40px 80px rgba(0,0,0,0.5)' }}>
-                  <img src="/assets/WhatsApp Image 2026-03-04 at 3.39.08 PM.jpeg" alt="Professor Plaza" style={{ width: '100%', height: '800px', objectFit: 'cover' }} />
-                </div>
-                <div className="glass" style={{ position: 'absolute', bottom: '4rem', right: '-4rem', padding: '3rem', borderRadius: '2.5rem', background: 'var(--bg-main)', border: '1px solid var(--logo-green)' }}>
-                  <h4 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '0.5rem' }}>Faixa-Preta</h4>
-                  <p style={{ color: 'var(--logo-green)', fontWeight: 800, fontSize: '0.8rem', letterSpacing: '0.2em' }}>CERTIFICADO KRONOS BJJ</p>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1, delay: 0.2 }}
-              >
-                <span style={{ color: 'var(--logo-green)', fontWeight: 900, letterSpacing: '0.5em', fontSize: '0.9rem', textTransform: 'uppercase', display: 'block', marginBottom: '2rem' }}>Liderazgo Técnico</span>
-                <h2 style={{ fontSize: '6rem', color: 'var(--logo-green)', marginBottom: '4rem', lineHeight: 1 }}>Manuel Plaza <br /><span style={{ color: 'transparent', WebkitTextStroke: '1.5px var(--logo-green)', opacity: 0.3 }}>Arenas.</span></h2>
-                <p style={{ fontSize: '1.4rem', color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: '5rem', fontWeight: 500 }}>
-                  Con más de 17 años dedicados al perfeccionamiento del Brazilian Jiu Jitsu, el Profesor Plaza ha forjado una de las comunidades más sólidas de Concepción. Su enfoque combina la disciplina tradicional con metodologías modernas de alto rendimiento.
-                </p>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
-                  {[
-                    { label: 'Formación', text: 'Cinturón Negro 2do Grado' },
-                    { label: 'Especialidad', text: 'Técnica & Estrategia' },
-                    { label: 'Logros', text: 'Coach de Medallistas USA' },
-                    { label: 'Misión', text: 'Excelencia en el Tatami' }
-                  ].map((item, i) => (
-                    <div key={i}>
-                      <p style={{ color: 'var(--logo-green)', fontWeight: 900, fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '0.8rem' }}>{item.label}</p>
-                      <p style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-main)' }}>{item.text}</p>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        <section id="noticias" style={{ padding: '15rem 0', position: 'relative' }}>
-          <div className="mesh-gradient" style={{ opacity: 0.1, transform: 'rotate(180deg)' }} />
-          <div className="section-container">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '10rem' }}>
-              <div>
-                <span style={{ color: 'var(--logo-green)', fontWeight: 900, letterSpacing: '0.5em', fontSize: '0.8rem', textTransform: 'uppercase', display: 'block', marginBottom: '2rem' }}>Noticias del Dojo</span>
-                <h2 style={{ fontSize: '5rem', color: 'var(--text-main)' }}>Últimos <span style={{ color: 'var(--logo-green)' }}>Acontecimientos.</span></h2>
               </div>
-              <button className="btn-secondary" style={{ padding: '1.2rem 3rem' }}>Ver todas las noticias</button>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 2. PROFESOR / NOTICIAS DESTACADAS */}
+        <section id="profesor" style={{ padding: '4rem 0', background: 'var(--bg-main)', position: 'relative', overflow: 'hidden' }}>
+          <div className="section-container">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeNews}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10rem', alignItems: 'center' }}
+              >
+                {/* Left Side: Newspaper Visual */}
+                <div style={{ position: 'relative' }}>
+                  <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '120%', height: '120%', background: 'var(--logo-green)', filter: 'blur(100px)', opacity: 0.15, zIndex: -1 }}></div>
+                  <div style={{ borderRadius: '4rem', overflow: 'hidden', border: '1px solid var(--logo-green)', boxShadow: '0 40px 80px rgba(0,0,0,0.5)', background: '#fff' }}>
+                    <div style={{ padding: '2rem', borderBottom: '2px solid #000', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span className="font-martial" style={{ color: '#000', fontSize: '1.5rem' }}>DIARIO DEPORTIVO</span>
+                      <span style={{ color: '#000', fontWeight: 800 }}>{liveNews[activeNews].date}</span>
+                    </div>
+                    <img src={liveNews[activeNews].img} alt="Noticia" style={{ width: '100%', height: '500px', objectFit: 'cover', filter: 'sepia(0.2) contrast(1.1)' }} />
+                    <div style={{ padding: '2rem', color: '#000' }}>
+                      <h4 style={{ fontSize: '2rem', marginBottom: '1rem', color: '#000', lineHeight: 1.1 }}>{liveNews[activeNews].title}</h4>
+                      <div className="glass" style={{ display: 'inline-block', padding: '0.5rem 1rem', background: 'var(--logo-green)', color: '#fff', borderRadius: '1rem', fontWeight: 900, fontSize: '0.8rem' }}>
+                        {liveNews[activeNews].label}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Side: News Body */}
+                <div style={{ paddingLeft: '2rem' }}>
+                  <span style={{ color: 'var(--logo-green)', fontWeight: 900, letterSpacing: '0.5em', fontSize: '0.9rem', textTransform: 'uppercase', display: 'block', marginBottom: '2rem' }}>
+                    {liveNews[activeNews].label}
+                  </span>
+                  <h2 style={{ fontSize: 'clamp(3rem, 5vw, 5rem)', color: 'var(--text-main)', marginBottom: '3rem', lineHeight: 1 }}>
+                    {liveNews[activeNews].title.includes(':') ? (
+                      <>
+                        <span style={{ fontSize: '0.6em', opacity: 0.7, display: 'block', marginBottom: '0.5rem' }}>{liveNews[activeNews].title.split(':')[0]}</span>
+                        <span style={{ color: 'var(--logo-green)' }}>{liveNews[activeNews].title.split(':')[1].trim()}</span>
+                      </>
+                    ) : (
+                      liveNews[activeNews].title
+                    )}
+                  </h2>
+                  <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '4rem', fontWeight: 500, maxWidth: '90%' }}>
+                    {liveNews[activeNews].body}
+                  </p>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '4rem' }}>
+                    {liveNews[activeNews].stats.map((item, i) => (
+                      <div key={i}>
+                        <p style={{ color: 'var(--logo-green)', fontWeight: 900, fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: '0.8rem' }}>{item.label}</p>
+                        <p style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-main)' }}>{item.text}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+                    <button className="btn-cartoon" onClick={() => window.open(liveNews[activeNews].link, '_blank')}>Leer Noticia Completa</button>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                      {liveNews.map((_, i) => (
+                        <div 
+                          key={i} 
+                          onClick={() => setActiveNews(i)}
+                          style={{ 
+                            width: i === activeNews ? '40px' : '12px', 
+                            height: '12px', 
+                            borderRadius: '10px', 
+                            background: i === activeNews ? 'var(--logo-green)' : 'rgba(255,255,255,0.2)', 
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease'
+                          }} 
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </section>
+
+        {/* Section 3. GALLERY */}
+        <section id="gallery" style={{ padding: '10rem 0', position: 'relative' }}>
+          <div className="section-container">
+            <div style={{ textAlign: 'center', marginBottom: '8rem' }}>
+              <span style={{ color: 'var(--logo-green)', fontWeight: 900, letterSpacing: '0.5em', fontSize: '0.9rem', textTransform: 'uppercase', display: 'block', marginBottom: '2rem' }}>Experiencia Ranas</span>
+              <h2 style={{ fontSize: '6rem', color: 'var(--text-main)', marginBottom: '2rem' }}>Galería de <span style={{ color: 'var(--logo-green)' }}>Acción.</span></h2>
+              <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto', fontWeight: 500 }}>Capturando los mejores momentos en el tatami, desde competencias internacionales hasta el día a día en el dojo.</p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4rem' }}>
-              {[
-                {
-                  date: '09 Jul, 2025',
-                  title: 'Nueva Versión del Frog Challenge Kids',
-                  desc: 'El torneo de Jiu Jitsu juvenil más importante de la región se toma Concepción en su tercera versión.',
-                  link: 'https://www.canal9.cl/episodios/nuestra-casa/2025/07/09/llega-la-tercera-version-del-frog-challenge-kids-torneo-de-jiu-jitsu-juvenil-se-toma-concepcion',
-                  img: 'https://images.unsplash.com/photo-1599058917232-d750c185ca0d?w=600'
-                },
-                {
-                  date: '16 Feb, 2023',
-                  title: 'Manuel Plaza: Medallas en EE.UU.',
-                  desc: 'El profesor Manuel Plaza destaca en el US Open sumando medallas para el dojo y Concepción.',
-                  link: 'https://www.diarioconcepcion.cl/deportes/2023/02/16/manuel-plaza-penquista-suma-medallas-en-tatamis-estadounidenses.html',
-                  img: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=600'
-                },
-                {
-                  date: '20 Feb, 2024',
-                  title: 'Inauguración: Nueva Área de Relax',
-                  desc: 'Hemos diseñado un nuevo espacio post-entrenamiento para la recuperación física de nuestros alumnos.',
-                  img: 'https://images.unsplash.com/photo-1528642466442-773a2c6da3f5?w=600'
-                }
-              ].map((noticia, i) => (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridAutoRows: '300px', gap: '2rem' }}>
+              {liveGallery.map((item, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: i * 0.2 }}
-                  whileHover={{ y: -15 }}
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => noticia.link && window.open(noticia.link, '_blank')}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                  style={{
+                    gridColumn: item.size === 'large' ? 'span 2' : item.size === 'wide' ? 'span 2' : 'span 1',
+                    gridRow: item.size === 'large' ? 'span 2' : item.size === 'tall' ? 'span 2' : 'span 1',
+                    borderRadius: '2rem',
+                    overflow: 'hidden',
+                    background: 'var(--panel-card)',
+                    border: '1px solid var(--panel-border)',
+                    cursor: 'pointer',
+                    position: 'relative'
+                  }}
                 >
-                  <div style={{ height: '350px', borderRadius: '3rem', overflow: 'hidden', marginBottom: '3rem', position: 'relative' }}>
-                    <img src={noticia.img} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    <div className="glass" style={{ position: 'absolute', top: '2rem', left: '2rem', padding: '0.8rem 1.5rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: 900 }}>{noticia.date}</div>
+                  <img src={item.img} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Gallery" />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)', opacity: 0, transition: 'opacity 0.3s' }} onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')} onMouseLeave={(e) => (e.currentTarget.style.opacity = '0')}>
+                    <div style={{ position: 'absolute', bottom: '2rem', left: '2rem' }}>
+                      <ImageIcon size={24} color="#fff" />
+                    </div>
                   </div>
-                  <h3 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '1.5rem', color: 'var(--text-main)', lineHeight: 1.3 }}>{noticia.title}</h3>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.6, fontWeight: 500 }}>{noticia.desc}</p>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="galeria" style={{ padding: '20rem 0' }}>
-          <div className="section-container">
-            <div style={{ textAlign: 'center', marginBottom: '12rem' }}>
-              <span style={{ color: 'var(--logo-green)', fontWeight: 900, letterSpacing: '0.5em', fontSize: '0.85rem', textTransform: 'uppercase', display: 'block', marginBottom: '2rem' }}>Galería Técnica</span>
-              <h2 style={{ fontSize: '6rem', color: 'var(--text-main)' }}>La Experiencia <span style={{ color: 'transparent', WebkitTextStroke: '1.5px var(--logo-green)', opacity: 0.4 }}>Elite.</span></h2>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '3.5rem' }}>
-              {[1, 2, 3, 4].map(n => (
-                <motion.div key={n} whileHover={{ y: -20, scale: 1.02 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} style={{ aspectRatio: '9/16', borderRadius: 'var(--radius-xl)', overflow: 'hidden', boxShadow: '0 30px 60px rgba(0,0,0,0.6)', border: '1px solid var(--glass-border)', background: '#000' }}>
-                  <SocialVideoPlayer src={`/assets/WhatsApp Video 2026-03-04 at 3.29.0${n} PM.mp4`} size="sm" />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         <footer style={{ background: 'rgba(0,0,0,0.5)', padding: '12rem 0 6rem', borderTop: '1px solid var(--glass-border)' }}>
           <div className="section-container">
@@ -1037,7 +1198,7 @@ const App: React.FC = () => {
   }
 
   // --- RENDERING ADMIN PANEL ---
-  const tabLabels: Record<string, string> = { dashboard: 'Resumen', students: 'Alumnos', videos: 'Biblioteca', attendance: 'Asistencia', payments: 'Finanzas', settings: 'Ajustes' };
+  const tabLabels: Record<string, string> = { dashboard: 'Resumen', students: 'Alumnos', videos: 'Biblioteca', attendance: 'Asistencia', payments: 'Finanzas', settings: 'Ajustes', website: 'Sitio Web' };
   return (
     <div style={{ background: 'var(--panel-bg)', minHeight: '100vh', display: 'flex', color: 'var(--panel-text)', overflow: 'hidden' }}>
       {/* Mobile Header */}
@@ -1091,6 +1252,7 @@ const App: React.FC = () => {
             { id: 'dashboard', label: 'Resumen', icon: <TrendingUp size={17} /> },
             { id: 'students', label: 'Alumnos', icon: <Users size={17} /> },
             { id: 'videos', label: 'Biblioteca', icon: <Play size={17} /> },
+            { id: 'website', label: 'Sitio Web', icon: <Monitor size={17} /> },
             { id: 'attendance', label: 'Asistencia', icon: <QrCode size={17} /> },
             { id: 'payments', label: 'Finanzas', icon: <CreditCard size={17} /> },
             { id: 'settings', label: 'Ajustes', icon: <Settings size={17} /> },
@@ -1419,8 +1581,10 @@ const App: React.FC = () => {
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     <button className="btn-primary" style={{ height: '80px', borderRadius: '2rem', justifyContent: 'center' }} onClick={() => {
-                      const success = handleMercadoPagoPayment({ email: students[0].email, name: students[0].name, amount: 45000 });
-                      alert(success ? 'Pago conciliado automáticamente' : 'Error en conciliación');
+                      if (students.length > 0) {
+                        const success = handleMercadoPagoPayment({ email: students[0].email, name: students[0].name, amount: 45000 });
+                        alert(success ? 'Pago conciliado automáticamente' : 'Error en conciliación');
+                      }
                     }}>Simular Pago Recibido (Alex Rivera)</button>
                     <button className="btn-secondary" style={{ height: '80px', borderRadius: '2rem', justifyContent: 'center', color: 'var(--text-main)', borderColor: 'var(--glass-border)' }} onClick={() => {
                       const success = handleMercadoPagoPayment({ email: 'desconocido@test.com', name: 'Alguien Nuevo', amount: 55000 });
@@ -1450,6 +1614,100 @@ const App: React.FC = () => {
                       ))}
                     </tbody>
                   </table>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'website' && (
+            <motion.div key="website" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'grid', gridTemplateColumns: 'minmax(350px, 1fr) 2fr', gap: '2.5rem' }}>
+              {/* Manage Hero Videos */}
+              <div className="glass" style={{ padding: '2.5rem', borderRadius: '2.5rem', background: 'var(--panel-card)', border: '1px solid var(--panel-border)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 900 }}>Hero Videos <br/><span style={{ fontSize: '0.7rem', opacity: 0.5 }}>(Slider Principal)</span></h3>
+                  <button className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.7rem' }} onClick={() => {
+                    const url = prompt('URL del video (MP4):');
+                    if (url) {
+                      const updated = [...liveHeroVideos, url];
+                      setLiveHeroVideos(updated);
+                      syncWebsite('hero-videos', updated);
+                    }
+                  }}><Plus size={14}/> Añadir</button>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  {liveHeroVideos.map((url, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: 'rgba(255,255,255,0.03)', padding: '1rem', borderRadius: '1.2rem', border: '1px solid var(--panel-border)' }}>
+                      <div style={{ width: '60px', height: '40px', background: '#000', borderRadius: '0.6rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Play size={14} /></div>
+                      <div style={{ flex: 1, fontSize: '0.75rem', color: 'var(--panel-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{url.split('/').pop()}</div>
+                      <button style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '0.5rem' }} onClick={() => {
+                        const updated = liveHeroVideos.filter((_, idx) => idx !== i);
+                        setLiveHeroVideos(updated);
+                        syncWebsite('hero-videos', updated);
+                      }}><X size={16} /></button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Manage News */}
+              <div className="glass" style={{ padding: '2.5rem', borderRadius: '2.5rem', background: 'var(--panel-card)', border: '1px solid var(--panel-border)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 900 }}>Noticias <br/><span style={{ fontSize: '0.7rem', opacity: 0.5 }}>(Slider Diario)</span></h3>
+                  <button className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.7rem' }} onClick={() => {
+                    setNewNewsData({
+                      title: '', 
+                      body: '', 
+                      img: '', 
+                      link: '#', 
+                      label: 'Noticias del Dojo', 
+                      date: new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'short', year: 'numeric' }),
+                      stats: [{ label: 'Evento', text: '' }]
+                    });
+                    setIsAddingNews(true);
+                  }}><Plus size={14}/> Nueva Noticia</button>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+                  {liveNews.map((news, i) => (
+                    <div key={i} style={{ display: 'flex', gap: '1.2rem', background: 'rgba(255,255,255,0.03)', padding: '1.2rem', borderRadius: '1.5rem', border: '1px solid var(--panel-border)', position: 'relative' }}>
+                      <img src={news.img} style={{ width: '80px', height: '60px', objectFit: 'cover', borderRadius: '0.8rem' }} />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '0.3rem' }}>{news.title}</div>
+                        <div style={{ fontSize: '0.7rem', color: 'var(--panel-muted)' }}>{news.date}</div>
+                        <div style={{ fontSize: '0.65rem', color: 'var(--logo-green)', fontWeight: 900, marginTop: '0.4rem' }}>{news.label}</div>
+                      </div>
+                      <button style={{ position: 'absolute', top: '0.8rem', right: '0.8rem', background: 'rgba(239,68,68,0.1)', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '0.4rem', borderRadius: '0.5rem' }} onClick={() => {
+                        const updated = liveNews.filter((_, idx) => idx !== i);
+                        setLiveNews(updated);
+                        syncWebsite('news', updated);
+                      }}><X size={14} /></button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Manage Gallery */}
+              <div className="glass" style={{ gridColumn: 'span 2', padding: '2.5rem', borderRadius: '2.5rem', background: 'var(--panel-card)', border: '1px solid var(--panel-border)', marginTop: '2rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 900 }}>Galería de Fotos <br/><span style={{ fontSize: '0.7rem', opacity: 0.5 }}>(Mosaico de Inicio)</span></h3>
+                  <button className="btn-primary" style={{ padding: '0.5rem 1.2rem', fontSize: '0.7rem', background: 'var(--logo-green)' }} onClick={() => {
+                    setNewGalleryData({ img: '', size: 'small' });
+                    setIsAddingGallery(true);
+                  }}><Plus size={14}/> Nueva Foto</button>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1.5rem' }}>
+                  {liveGallery.map((photo, i) => (
+                    <div key={i} style={{ position: 'relative', borderRadius: '1.5rem', overflow: 'hidden', border: '1px solid var(--panel-border)', height: '180px' }}>
+                      <img src={photo.img} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <div style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', display: 'flex', gap: '0.4rem' }}>
+                        <div style={{ background: 'rgba(0,0,0,0.6)', color: '#fff', padding: '0.3rem 0.6rem', borderRadius: '0.6rem', fontSize: '0.6rem', fontWeight: 900, textTransform: 'uppercase' }}>{photo.size}</div>
+                        <button style={{ background: '#ef4444', border: 'none', color: '#fff', cursor: 'pointer', padding: '0.4rem', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => {
+                          const updated = liveGallery.filter((_, idx) => idx !== i);
+                          setLiveGallery(updated);
+                          syncWebsite('gallery', updated);
+                        }}><X size={14} /></button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </motion.div>
@@ -1855,8 +2113,119 @@ const App: React.FC = () => {
             </motion.div>
           )
         }
-      </AnimatePresence >
-    </div >
+
+        {
+          isAddingNews && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', backdropFilter: 'blur(10px)' }}>
+              <motion.div style={{ width: '100%', maxWidth: '500px', padding: '3.5rem', borderRadius: '3rem', background: '#fff', color: '#111', border: '1px solid rgba(0,0,0,0.1)', boxShadow: '0 40px 100px -20px rgba(0,0,0,0.2)', maxHeight: '90vh', overflowY: 'auto' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+                  <h2 style={{ fontSize: '2.2rem', fontWeight: 900, letterSpacing: '-1px', color: '#111' }}>Crear <span style={{ color: 'var(--logo-green)' }}>Noticia</span></h2>
+                  <button onClick={() => setIsAddingNews(false)} style={{ background: 'var(--panel-surface)', border: '1px solid var(--panel-border)', color: '#111', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}><X size={18} /></button>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+                  {newNewsData.img && (
+                    <div style={{ width: '100%', height: '150px', borderRadius: '1.5rem', overflow: 'hidden', border: '2px solid var(--logo-green)', marginBottom: '0.5rem' }}>
+                      <img src={newNewsData.img} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Preview" onError={(e) => (e.currentTarget.src = 'https://images.unsplash.com/photo-1552072047-54d19335391c?w=800')} />
+                    </div>
+                  )}
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 800, fontSize: '0.7rem', color: '#64748b' }}>TÍTULO DE LA NOTICIA</label>
+                    <input style={{ width: '100%', padding: '1.2rem', borderRadius: '1rem', border: '1px solid #e2e8f0', background: '#f8fafc', color: '#111', fontWeight: 700, fontSize: '1rem', outline: 'none' }} placeholder="Escribe el titular principal..." value={newNewsData.title} onChange={e => setNewNewsData({ ...newNewsData, title: e.target.value })} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 800, fontSize: '0.7rem', color: '#64748b' }}>IMAGEN DE LA NOTICIA (Link o subir archivo)</label>
+                    <div style={{ display: 'flex', gap: '0.8rem' }}>
+                      <input style={{ flex: 1, padding: '1.2rem', borderRadius: '1rem', border: '1px solid #e2e8f0', background: '#f8fafc', color: '#111', fontWeight: 700, fontSize: '1rem', outline: 'none' }} placeholder="https://..." value={newNewsData.img} onChange={e => setNewNewsData({ ...newNewsData, img: e.target.value })} />
+                      <label style={{ background: 'var(--logo-green)', color: '#fff', padding: '0 1.5rem', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontWeight: 900, transition: 'all 0.2s' }} className="hover-lift">
+                        <Camera size={20} />
+                        <input type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleGenericImageUpload(e, (b64) => setNewNewsData({ ...newNewsData, img: b64 }))} />
+                      </label>
+                    </div>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 800, fontSize: '0.7rem', color: '#64748b' }}>CUERPO / RESUMEN DE LA NOTICIA</label>
+                    <textarea style={{ width: '100%', padding: '1.2rem', borderRadius: '1rem', border: '1px solid #e2e8f0', background: '#f8fafc', color: '#111', fontWeight: 600, fontSize: '0.9rem', outline: 'none', minHeight: '100px', resize: 'none' }} placeholder="Escribe el contenido de la noticia aquí..." value={newNewsData.body} onChange={e => setNewNewsData({ ...newNewsData, body: e.target.value })} />
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div>
+                      <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 800, fontSize: '0.7rem', color: '#64748b' }}>ETIQUETA (CATEGORÍA)</label>
+                      <input style={{ width: '100%', padding: '1.2rem', borderRadius: '1rem', border: '1px solid #e2e8f0', background: '#f8fafc', color: '#111', fontWeight: 700, fontSize: '0.9rem', outline: 'none' }} placeholder="Ej: Noticias del Dojo" value={newNewsData.label} onChange={e => setNewNewsData({ ...newNewsData, label: e.target.value })} />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 800, fontSize: '0.7rem', color: '#64748b' }}>FECHA DE PUBLICACIÓN</label>
+                      <input style={{ width: '100%', padding: '1.2rem', borderRadius: '1rem', border: '1px solid #e2e8f0', background: '#f8fafc', color: '#111', fontWeight: 700, fontSize: '0.9rem', outline: 'none' }} placeholder="Ej: 11 Mar, 2026" value={newNewsData.date} onChange={e => setNewNewsData({ ...newNewsData, date: e.target.value })} />
+                    </div>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 800, fontSize: '0.7rem', color: '#64748b' }}>LINK A ARTÍCULO COMPLETO (OPCIONAL)</label>
+                    <input style={{ width: '100%', padding: '1.2rem', borderRadius: '1rem', border: '1px solid #e2e8f0', background: '#f8fafc', color: '#111', fontWeight: 700, fontSize: '0.9rem', outline: 'none' }} placeholder="https://..." value={newNewsData.link} onChange={e => setNewNewsData({ ...newNewsData, link: e.target.value })} />
+                  </div>
+                  <button className="btn-primary" style={{ marginTop: '1rem', width: '100%', justifyContent: 'center', padding: '1.5rem', borderRadius: '2rem', background: 'var(--logo-green)', color: '#fff', fontWeight: 900, fontSize: '1rem', letterSpacing: '0.05em' }} onClick={() => {
+                    if (newNewsData.title && newNewsData.body && newNewsData.img) {
+                      const updated = [newNewsData, ...liveNews];
+                      setLiveNews(updated);
+                      syncWebsite('news', updated);
+                      setIsAddingNews(false);
+                    } else {
+                      alert('Por favor, completa al menos el título, imagen y cuerpo.');
+                    }
+                  }}>PUBLICAR NOTICIA EN EL SLIDER</button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )
+        }
+
+        {
+          isAddingGallery && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', backdropFilter: 'blur(10px)' }}>
+              <motion.div style={{ width: '100%', maxWidth: '450px', padding: '3.5rem', borderRadius: '3rem', background: '#fff', color: '#111', border: '1px solid rgba(0,0,0,0.1)', boxShadow: '0 40px 100px -20px rgba(0,0,0,0.2)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+                  <h2 style={{ fontSize: '2.2rem', fontWeight: 900, letterSpacing: '-1px', color: '#111' }}>Añadir a <span style={{ color: 'var(--logo-green)' }}>Galería</span></h2>
+                  <button onClick={() => setIsAddingGallery(false)} style={{ background: 'var(--panel-surface)', border: '1px solid var(--panel-border)', color: '#111', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}><X size={18} /></button>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                  {newGalleryData.img && (
+                    <div style={{ width: '100%', height: '200px', borderRadius: '1.5rem', overflow: 'hidden', border: '2px solid var(--logo-green)' }}>
+                      <img src={newGalleryData.img} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  )}
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 800, fontSize: '0.7rem', color: '#64748b' }}>IMAGEN (Link o subir archivo)</label>
+                    <div style={{ display: 'flex', gap: '0.8rem' }}>
+                      <input style={{ flex: 1, padding: '1.2rem', borderRadius: '1rem', border: '1px solid #e2e8f0', background: '#f8fafc', color: '#111', fontWeight: 700, fontSize: '1rem', outline: 'none' }} placeholder="https://..." value={newGalleryData.img} onChange={e => setNewGalleryData({ ...newGalleryData, img: e.target.value })} />
+                      <label style={{ background: 'var(--logo-green)', color: '#fff', padding: '0 1.5rem', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontWeight: 900 }} className="hover-lift">
+                        <Camera size={20} />
+                        <input type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleGenericImageUpload(e, (b64) => setNewGalleryData({ ...newGalleryData, img: b64 }))} />
+                      </label>
+                    </div>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 800, fontSize: '0.7rem', color: '#64748b' }}>TAMAÑO EN EL MOSAICO</label>
+                    <select style={{ width: '100%', padding: '1.2rem', borderRadius: '1rem', border: '1px solid #e2e8f0', background: '#fff', color: '#111', fontWeight: 900, fontSize: '1rem', outline: 'none', cursor: 'pointer' }} value={newGalleryData.size} onChange={e => setNewGalleryData({ ...newGalleryData, size: e.target.value as any })}>
+                      <option value="small">Pequeño (1x1)</option>
+                      <option value="wide">Ancho (2x1)</option>
+                      <option value="tall">Alto (1x2)</option>
+                      <option value="large">Grande (2x2)</option>
+                    </select>
+                  </div>
+                  <button className="btn-primary" style={{ marginTop: '1rem', width: '100%', justifyContent: 'center', padding: '1.5rem', borderRadius: '2rem', background: 'var(--logo-green)', color: '#fff', fontWeight: 900 }} onClick={() => {
+                    if (newGalleryData.img) {
+                      const updated = [newGalleryData, ...liveGallery];
+                      setLiveGallery(updated);
+                      syncWebsite('gallery', updated);
+                      setIsAddingGallery(false);
+                    } else {
+                      alert('Por favor, selecciona una imagen.');
+                    }
+                  }}>AGREGAR A GALERÍA</button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )
+        }
+      </AnimatePresence>
+    </div>
   );
 };
 

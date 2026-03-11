@@ -29,6 +29,9 @@ if (!fs.existsSync(dbPath)) fs.mkdirSync(dbPath);
 
 const studentsFile = path.join(dbPath, 'students.json');
 const videosFile = path.join(dbPath, 'videos.json');
+const newsFile = path.join(dbPath, 'news.json');
+const galleryFile = path.join(dbPath, 'gallery.json');
+const heroVideosFile = path.join(dbPath, 'heroVideos.json');
 
 // Helpers to read/write JSON
 const readData = (file) => {
@@ -58,6 +61,39 @@ app.post('/api/videos', (req, res) => {
     videos.push(newVideo);
     writeData(videosFile, videos);
     res.status(201).json(newVideo);
+});
+
+// News
+app.get('/api/news', (req, res) => {
+    res.json(readData(newsFile));
+});
+
+app.post('/api/news', (req, res) => {
+    const news = req.body; // Expecting the full array from frontend for simplicity in this un-id'd state
+    writeData(newsFile, news);
+    res.status(200).json(news);
+});
+
+// Gallery
+app.get('/api/gallery', (req, res) => {
+    res.json(readData(galleryFile));
+});
+
+app.post('/api/gallery', (req, res) => {
+    const gallery = req.body;
+    writeData(galleryFile, gallery);
+    res.status(200).json(gallery);
+});
+
+// Hero Videos
+app.get('/api/hero-videos', (req, res) => {
+    res.json(readData(heroVideosFile));
+});
+
+app.post('/api/hero-videos', (req, res) => {
+    const videos = req.body;
+    writeData(heroVideosFile, videos);
+    res.status(200).json(videos);
 });
 
 // Students with automatic background sync
