@@ -721,45 +721,45 @@ const App: React.FC = () => {
         </section>
 
 
-        <footer style={{ background: 'rgba(0,0,0,0.5)', padding: '12rem 0 6rem', borderTop: '1px solid var(--glass-border)' }}>
+        <footer style={{ background: '#000', padding: '10rem 0 5rem', borderTop: '1px solid rgba(255,255,255,0.1)', color: '#fff' }}>
           <div className="section-container">
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '8rem', marginBottom: '8rem' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '3rem' }}>
-                  <div style={{ padding: '3px', background: 'var(--text-main)', borderRadius: '50%', display: 'flex' }}>
+                  <div style={{ padding: '3px', background: '#fff', borderRadius: '50%', display: 'flex' }}>
                     <img src="/assets/WhatsApp Image 2026-03-04 at 1.50.04 PM.jpeg" alt="Logo" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }} />
                   </div>
-                  <span style={{ fontWeight: 900, fontSize: '2rem', letterSpacing: '-2px', color: 'var(--text-main)' }}>RANAS <span style={{ color: 'var(--logo-green)' }}>JIU JITSU</span></span>
+                  <span style={{ fontWeight: 900, fontSize: '2rem', letterSpacing: '-2px', color: '#fff' }}>RANAS <span style={{ color: 'var(--logo-green)' }}>JIU JITSU</span></span>
                 </div>
-                <p style={{ color: 'var(--text-muted)', lineHeight: 2, fontSize: '1.15rem', maxWidth: '400px', fontWeight: 500 }}>
+                <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 2, fontSize: '1.15rem', maxWidth: '400px', fontWeight: 500 }}>
                   El epicentro del Jiu Jitsu de alto nivel en Concepción. Orompello 1421. Maestría técnica y comunidad.
                 </p>
               </div>
               <div>
-                <h4 style={{ fontSize: '1rem', marginBottom: '2.5rem', fontWeight: 900 }}>COMUNIDAD</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>
-                  <span>Nosotros</span>
-                  <span>Horarios</span>
-                  <span>Membresías</span>
+                <h4 style={{ fontSize: '1.2rem', marginBottom: '2.5rem', fontWeight: 900, color: 'var(--logo-green)', letterSpacing: '0.05em' }}>COMUNIDAD</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', fontWeight: 600 }}>
+                  <span className="footer-link">Nosotros</span>
+                  <span className="footer-link">Horarios</span>
+                  <span className="footer-link">Membresías</span>
                 </div>
               </div>
               <div>
-                <h4 style={{ fontSize: '1rem', marginBottom: '2.5rem', fontWeight: 900 }}>CONTACTO</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>
+                <h4 style={{ fontSize: '1.2rem', marginBottom: '2.5rem', fontWeight: 900, color: 'var(--logo-green)', letterSpacing: '0.05em' }}>CONTACTO</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', fontWeight: 600 }}>
                   <span>+56 9 3960 1560</span>
                   <span>hola@ranasjiujitsu.cl</span>
                   <span>Orompello 1421, Concepción</span>
                 </div>
               </div>
               <div>
-                <h4 style={{ fontSize: '1rem', marginBottom: '2.5rem', fontWeight: 900 }}>SÍGUENOS</h4>
+                <h4 style={{ fontSize: '1.2rem', marginBottom: '2.5rem', fontWeight: 900, color: 'var(--logo-green)', letterSpacing: '0.05em' }}>SÍGUENOS</h4>
                 <div style={{ display: 'flex', gap: '1.5rem', color: 'var(--logo-green)' }}>
-                  <Instagram size={24} />
-                  <Facebook size={24} />
+                  <Instagram size={24} className="hover-lift" style={{ cursor: 'pointer' }} />
+                  <Facebook size={24} className="hover-lift" style={{ cursor: 'pointer' }} />
                 </div>
               </div>
             </div>
-            <div style={{ paddingTop: '3rem', borderTop: '1px solid rgba(0,0,0,0.05)', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.1em' }}>
+            <div style={{ paddingTop: '3rem', borderTop: '1px solid rgba(255,255,255,0.05)', textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.1em' }}>
               © 2026 RANAS JIU JITSU • CONCEPCIÓN CHILE
             </div>
           </div>
