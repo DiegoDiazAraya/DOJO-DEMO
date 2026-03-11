@@ -1,0 +1,54 @@
+[
+  {
+    "title": "Frog Challenge Kids eleva el nivel y pone al sur en el mapa del Jiu Jitsu infantil",
+    "body": "Más de 80 niños y adolescentes dieron vida a la tercera edición del torneo organizado por Ranas Jiu Jitsu, que reunió a equipos de distintas regiones en el gimnasio municipal de la capital penquista.",
+    "img": "/assets/news_frog_challenge_v2.jpg",
+    "link": "https://www.diarioconcepcion.cl/deportes/2025/07/15/frog-challenge-kids-eleva-el-nivel-y-pone-al-sur-en-el-mapa-del-jiu-jitsu-infantil.html",
+    "label": "Noticias del Dojo",
+    "date": "15 Jul, 2025",
+    "stats": [
+      {
+        "label": "Evento",
+        "text": "Frog Challenge 3"
+      },
+      {
+        "label": "Participantes",
+        "text": "80+ Atletas"
+      },
+      {
+        "label": "Sede",
+        "text": "Gimnasio Municipal"
+      },
+      {
+        "label": "Organiza",
+        "text": "Ranas Jiu Jitsu"
+      }
+    ]
+  },
+  {
+    "title": "Manuel Plaza: penquista suma medallas en tatamis estadounidenses",
+    "body": "El profesor Manuel Plaza conquistó cuatro medallas, dos de ellas de oro, en el Oklahoma City International Open. El deportista se formó al alero del destacado instructor Reinaldo Duguet.",
+    "img": "/assets/news_manuel_medals_v2.jpeg",
+    "link": "https://www.diarioconcepcion.cl/deportes/2023/02/16/manuel-plaza-penquista-suma-medallas-en-tatamis-estadounidenses.html",
+    "label": "Logro Internacional",
+    "date": "16 Feb, 2023",
+    "stats": [
+      {
+        "label": "Torneo",
+        "text": "Oklahoma City Open"
+      },
+      {
+        "label": "Medallas",
+        "text": "2 Oros, 2 Platas"
+      },
+      {
+        "label": "Ranking",
+        "text": "#155 Mundial"
+      },
+      {
+        "label": "Categoría",
+        "text": "Master 1 Súper Pesado"
+      }
+    ]
+  }
+]

@@ -36,11 +36,9 @@ const heroVideosFile = path.join(dbPath, 'heroVideos.json');
 // Helpers to read/write JSON
 const readData = (file) => {
     if (!fs.existsSync(file)) {
-        console.warn(`File not found: ${file}`);
-        return [];
+        return null; // Return null to indicate "no file" vs "empty array"
     }
     const data = JSON.parse(fs.readFileSync(file, 'utf-8'));
-    console.log(`Loaded ${data.length} items from ${path.basename(file)}`);
     return data;
 };
 
@@ -52,7 +50,8 @@ const writeData = (file, data) => {
 
 // Videos
 app.get('/api/videos', (req, res) => {
-    res.json(readData(videosFile));
+    const data = readData(videosFile);
+    res.json(data || []);
 });
 
 app.post('/api/videos', (req, res) => {
@@ -65,7 +64,7 @@ app.post('/api/videos', (req, res) => {
 
 // News
 app.get('/api/news', (req, res) => {
-    res.json(readData(newsFile));
+    res.json(readData(newsFile)); // Returns null if no file
 });
 
 app.post('/api/news', (req, res) => {

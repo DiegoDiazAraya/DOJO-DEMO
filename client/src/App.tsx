@@ -250,11 +250,11 @@ const App: React.FC = () => {
           }
         });
 
-        setStudents(studentsData);
-        setVideos(videosData);
-        if (newsData.length > 0) setLiveNews(newsData);
-        if (galleryData.length > 0) setLiveGallery(galleryData);
-        if (heroVideosData.length > 0) setLiveHeroVideos(heroVideosData);
+        setStudents(studentsData || []);
+        setVideos(videosData || []);
+        if (newsData !== null) setLiveNews(newsData);
+        if (galleryData !== null) setLiveGallery(galleryData);
+        if (heroVideosData !== null) setLiveHeroVideos(heroVideosData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

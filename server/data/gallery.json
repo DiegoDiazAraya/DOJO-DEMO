@@ -1,0 +1,26 @@
+[
+  {
+    "img": "/assets/WhatsApp Image 2026-03-04 at 3.39.08 PM.jpeg",
+    "size": "large"
+  },
+  {
+    "img": "/assets/frog_challenge.jpeg",
+    "size": "small"
+  },
+  {
+    "img": "/assets/frog_combat_1.jpeg",
+    "size": "small"
+  },
+  {
+    "img": "/assets/frog_face.jpeg",
+    "size": "small"
+  },
+  {
+    "img": "https://images.unsplash.com/photo-1555597673-b21d5c935865?w=800",
+    "size": "wide"
+  },
+  {
+    "img": "/assets/frog_combat_2.jpeg",
+    "size": "small"
+  }
+]
