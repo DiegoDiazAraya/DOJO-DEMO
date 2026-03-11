@@ -726,17 +726,17 @@ const App: React.FC = () => {
         {/* Section 4. CONTACT/JOIN CALL TO ACTION */}
         <section id="contact" style={{ padding: '0 0 var(--section-padding) 0', position: 'relative' }}>
           <div className="section-container">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="responsive-stack glass" 
-              style={{ 
-                display: 'grid', 
-                gridTemplateColumns: '1fr 1.2fr', 
-                borderRadius: '4rem', 
-                overflow: 'hidden', 
-                background: 'var(--panel-card)', 
+              className="responsive-stack glass"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1.2fr',
+                borderRadius: '4rem',
+                overflow: 'hidden',
+                background: 'var(--panel-card)',
                 border: '1px solid var(--panel-border)',
                 minHeight: '450px',
                 boxShadow: '0 40px 100px -20px rgba(0,0,0,0.1)'
