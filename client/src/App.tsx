@@ -720,6 +720,71 @@ const App: React.FC = () => {
           </div>
         </section>
 
+        {/* Section 4. CONTACT/JOIN CALL TO ACTION */}
+        <section id="contact" style={{ padding: '0 0 10rem 0', position: 'relative' }}>
+          <div className="section-container">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="glass" 
+              style={{ 
+                display: 'grid', 
+                gridTemplateColumns: '1fr 1.2fr', 
+                borderRadius: '4rem', 
+                overflow: 'hidden', 
+                background: 'var(--panel-card)', 
+                border: '1px solid var(--panel-border)',
+                minHeight: '600px',
+                boxShadow: '0 40px 100px -20px rgba(0,0,0,0.1)'
+              }}
+            >
+              {/* Image Side */}
+              <div style={{ position: 'relative', overflow: 'hidden' }}>
+                <img 
+                  src="/assets/contact_section.jpeg" 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                  alt="Unete al Poder Anfibio" 
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent, var(--panel-card))', opacity: 0.1 }}></div>
+              </div>
+
+              {/* Text Side */}
+              <div style={{ padding: '6rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <span style={{ color: 'var(--logo-green)', fontWeight: 900, letterSpacing: '0.4em', fontSize: '1rem', textTransform: 'uppercase', marginBottom: '2rem', display: 'block' }}>Únete a Nosotros</span>
+                <h2 style={{ fontSize: '4.5rem', lineHeight: 1, marginBottom: '2.5rem', color: 'var(--text-main)', letterSpacing: '-2px' }}>
+                  ¿Quieres sumarte al <span style={{ color: 'var(--logo-green)' }}>poder anfibio?</span>
+                </h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                  <p style={{ fontSize: '1.4rem', color: 'var(--text-muted)', fontWeight: 500, lineHeight: 1.6 }}>
+                    Forma parte de la comunidad de Jiu Jitsu más fuerte de Concepción. No importa tu nivel, solo tu determinación.
+                  </p>
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', marginTop: '1rem' }}>
+                    <a 
+                      href="https://wa.me/56939601560" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="btn-primary hover-lift" 
+                      style={{ 
+                        padding: '1.8rem 3.5rem', 
+                        fontSize: '1.2rem', 
+                        background: 'var(--logo-green)', 
+                        textDecoration: 'none', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '1rem' 
+                      }}
+                    >
+                      CONTÁCTANOS AL +56 9 3960 1560
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
 
         <footer style={{ background: '#000', padding: '10rem 0 5rem', borderTop: '1px solid rgba(255,255,255,0.1)', color: '#fff' }}>
           <div className="section-container">
